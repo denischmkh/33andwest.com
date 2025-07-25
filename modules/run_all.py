@@ -57,7 +57,8 @@ scripts = [
     "49_publiccitypr.com.py"
 ]
 for script in scripts:
-    full_path = os.path.join(os.getcwd(), script)
+    modules_dir = os.path.join(os.path.dirname(__file__), "modules")
+    full_path = os.path.join(modules_dir, script)
     print(f"\n🚀 Running {script}...\n")
     site_name = script.replace('.py', '')
     site_name = ''.join(site_name.split('_')[1:])
