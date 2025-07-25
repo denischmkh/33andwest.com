@@ -1,7 +1,7 @@
 
 url = 'https://sacksco.com/clients.html'
 website_link = 'https://sacksco.com'
-agency_name = 'sacksco.com'
+agency_name = 'sacksco'
 
 import re
 import time

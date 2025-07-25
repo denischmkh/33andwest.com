@@ -4,7 +4,7 @@
 
 url = 'http://tkoco.com/roster'
 website_link = 'http://tkoco.com'
-agency_name = 'tkoco.com'
+agency_name = 'tkoco'
 
 import cloudscraper
 from bs4 import BeautifulSoup

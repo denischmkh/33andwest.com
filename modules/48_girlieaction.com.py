@@ -44,4 +44,4 @@ def get_artists(url):
 
 for u in urls:
     get_artists(u)
-save_in(current_names,website_link,agency_name)
+save_in(current_names,website_link,'girlieaction')

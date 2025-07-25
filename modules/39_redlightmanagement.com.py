@@ -1,7 +1,7 @@
 
 url = 'https://www.redlightmanagement.com/roster/'
 website_link = 'https://www.redlightmanagement.com'
-agency_name = 'redlightmanagement.com'
+agency_name = 'redlightmanagement'
 
 import re
 import time

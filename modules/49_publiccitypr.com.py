@@ -39,4 +39,4 @@ def get_artists(url):
     print(len(artists))
 
 get_artists(url)
-save_in(current_names,website_link,agency_name)
+save_in(current_names,website_link,'publiccitypr')

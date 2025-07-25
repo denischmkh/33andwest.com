@@ -1,6 +1,6 @@
 url = 'https://www.loaded.gg/creators/'
 website_link = 'https://www.loaded.gg'
-agency_name = 'loaded.gg'
+agency_name = 'loaded'
 
 import re
 import time

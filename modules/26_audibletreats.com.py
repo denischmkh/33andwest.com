@@ -17,7 +17,7 @@ headers = {
 
 url = 'https://audibletreats.com/clients/'
 website_link = 'https://audibletreats.com'
-agency_name = 'audibletreats.com'
+agency_name = 'audibletreats'
 
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)

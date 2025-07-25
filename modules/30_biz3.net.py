@@ -1,7 +1,7 @@
 
 url = 'https://www.biz3.net/home'
 website_link = 'https://www.biz3.net'
-agency_name = 'biz3.net'
+agency_name = 'biz3'
 
 import cloudscraper
 from bs4 import BeautifulSoup

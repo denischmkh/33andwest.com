@@ -1,7 +1,7 @@
 
 url = 'https://www.mbcpr.com/artists/'
 website_link = 'https://www.mbcpr.com'
-agency_name = 'mbcpr.com'
+agency_name = 'mbcpr'
 
 import re
 import time

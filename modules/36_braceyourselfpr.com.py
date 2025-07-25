@@ -2,7 +2,7 @@
 
 url = 'http://braceyourselfpr.com/'
 website_link = 'http://braceyourselfpr.com'
-agency_name = 'braceyourselfpr.com'
+agency_name = 'braceyourselfpr'
 
 import re
 import time

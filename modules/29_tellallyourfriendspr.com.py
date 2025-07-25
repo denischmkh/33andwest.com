@@ -1,6 +1,6 @@
 url = 'https://www.tellallyourfriendspr.com/allartists-1'
 website_link = 'https://www.tellallyourfriendspr.com'
-agency_name = 'tellallyourfriendspr.com'
+agency_name = 'tellallyourfriendspr'
 
 import cloudscraper
 from bs4 import BeautifulSoup

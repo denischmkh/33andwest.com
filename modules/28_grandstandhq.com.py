@@ -1,7 +1,7 @@
 
 url = 'https://grandstandhq.com/artists'
 website_link = 'https://grandstandhq.com'
-agency_name = 'grandstandhq.com'
+agency_name = 'grandstandhq'
 # url = 'https://www.stokedpr.com/category/music/'
 # website_link = 'https://www.stokedpr.com'
 

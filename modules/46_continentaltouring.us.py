@@ -43,7 +43,7 @@ try:
         current_names.add(artist)
 
     print(len(current_names))
-    save_in(current_names,website_link,agency_name)
+    save_in(current_names,website_link,'continentaltouring')
 
 
 

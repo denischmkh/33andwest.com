@@ -1,4 +1,3 @@
-
 from save_in_db import *
 
 url_n = 'https://www.pitchperfectpr.com/clients/'
@@ -49,9 +48,8 @@ try:
     for itm in items:
         current_names.add(itm['title'])
 
-    save_in(current_names,website_link,agency_name)
+    save_in(current_names, website_link, 'pitchperfectpr')
 
 except Exception:
     print("Non-JSON Response:")
     # print(response.text)
-

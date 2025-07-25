@@ -3,7 +3,7 @@
 
 url = 'https://chuffmedia.com/'
 website_link = 'https://chuffmedia.com'
-agency_name = 'chuffmedia.com'
+agency_name = 'chuffmedia'
 
 import cloudscraper
 from bs4 import BeautifulSoup

@@ -1,7 +1,7 @@
 
 url = 'https://www.stokedpr.com/category/music/'
 website_link = 'https://www.stokedpr.com'
-agency_name = 'stokedpr.com'
+agency_name = 'stokedpr'
 
 import re
 import time

@@ -13,7 +13,7 @@ today = timezone.now().date()
 
 url = "https://www.rocnation.com/wp-admin/admin-ajax.php"
 website_link = 'https://www.rocnation.com'
-agency_name = 'rocnation.com'
+agency_name = 'rocnation'
 
 headers = {
     "Accept": "*/*",
