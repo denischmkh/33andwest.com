@@ -1,0 +1,65 @@
+
+url = 'https://www.biz3.net/home'
+website_link = 'https://www.biz3.net'
+agency_name = 'biz3.net'
+
+import cloudscraper
+from bs4 import BeautifulSoup
+from django.utils import timezone
+from django.utils import timezone
+
+from load_django import *
+from parser_app.models import Artist
+
+today = timezone.now().date()
+
+headers = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+    'Accept-Language': 'en-En,en;q=0.9,en-US;q=0.8,en;q=0.7'
+}
+
+current_names = set()
+response = cloudscraper.create_scraper().get(url, headers=headers)
+
+if not response.ok:
+    print("❌ Failed to load the page.")
+    exit()
+
+soup = BeautifulSoup(response.text, 'html.parser')
+
+# //div[@id="comp-kbavofog"]//span[@class="wixui-rich-text__text"]
+# //div[@id="comp-kbgs5h4s"]//span[@class="wixui-rich-text__text"]
+# //div[@id="comp-kbgs5o79"]//span[@class="wixui-rich-text__text"]
+
+artists = []
+
+artists_1 = soup.find('div', id = "comp-kbavofog").find_all('span', class_="wixui-rich-text__text")
+artists.extend(artists_1)
+artists_2 = soup.find('div', id = "comp-kbgs5h4s").find_all('span', class_="wixui-rich-text__text")
+artists.extend(artists_2)
+artists_3 = soup.find('div', id = "comp-kbgs5o79").find_all('span', class_="wixui-rich-text__text")
+artists.extend(artists_3)
+
+for a in artists:
+    text = a.get_text(strip=True)
+    print(text)
+    current_names.add(text)
+        
+existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
+existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+for name in current_names:
+    artist, created = Artist.objects.get_or_create(
+        artist_name=name,
+        website_link = website_link,
+        defaults={
+            # 'website_link': website_link ,
+            'agency_name': agency_name,
+            'date_added': today
+        }
+    )
+   
+missing_names = existing_names - current_names
+Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
+
+print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
