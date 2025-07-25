@@ -11,7 +11,7 @@ scripts = [
     "3_august.agency.py",
     "4_billions.com.py",
     "5_caa.com.py",
-    "6_chameleon.17_unitedtalent.com.py",
+    "6_chameleon_unitedtalent.com.py",
     "7_groundcontroltouring.com.py",
     "8_highroadtouring.com.py",
     "9_itb.co.uk.py",
