@@ -1,0 +1,99 @@
+url='https://music.wmeagency.com/Music/all/talent?'
+website_link = 'https://music.wmeagency.com'
+
+
+import re
+import time
+import random
+from selenium import webdriver
+
+import undetected_chromedriver as uc
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import NoSuchElementException,NoSuchAttributeException, InvalidArgumentException,TimeoutException
+from django.utils import timezone
+
+from load_django import *
+from parser_app.models import Artist
+
+today = timezone.now().date()
+
+options = uc.ChromeOptions()
+options.add_argument("--headless=new")  # обязательно!
+options.add_argument("--disable-gpu")   # для совместимости
+options.add_argument("--no-sandbox")
+options.add_argument("--disable-blink-features=AutomationControlled")
+options.add_argument("--disable-notifications")
+options.add_argument("--lang=en-US")
+options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+
+driver = uc.Chrome(options=options)
+wait = WebDriverWait(driver, 20)
+
+driver.get(url)
+time.sleep(5)
+
+# driver.execute_script()
+current_names = set()
+
+def find_elemets_on_page(locator):
+    try:
+        return wait.until(EC.presence_of_all_elements_located((By.XPATH,f'{locator}')))
+    except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
+        print(f"Error find_elemets_on_page: {e} \n error in :{locator}")
+        return None
+
+all_links = find_elemets_on_page('//div[@class="grid-title"]')
+
+prev_count = -1
+count = 0
+while True:
+    # input("Натисни Enter для виходу: ")
+    break
+#     # 
+
+#     dd = find_elemets_on_page('//div[@class="each-list"]')
+#     # count = len(all_links)
+
+#     # if count == prev_count:
+#     #     break
+
+#     dd_xy = dd[-1].location
+
+#     prev_count = count
+#     driver.execute_script("document.body.click();")
+#     driver.execute_script(f"window.scrollTo(0, {count})")
+#     count += 10
+#     time.sleep(0.1)
+
+all_links = find_elemets_on_page('//div[@class="grid-title"]')
+
+for link in all_links:
+    # driver.execute_script(f"window.scrollTo(0, document.body.scrollHeight)")
+
+    link_text = link.text.strip()
+    print(link_text)
+    current_names.add(link_text)
+
+
+existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
+existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+driver.quit()
+for name in current_names:
+    artist, created = Artist.objects.get_or_create(
+        artist_name=name,
+        website_link = website_link,
+        defaults={
+            # 'website_link': website_link ,
+            'agency_name': 'wmeagency',
+            'date_added': today
+        }
+    )
+
+
+missing_names = existing_names - current_names
+Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
+
+print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
