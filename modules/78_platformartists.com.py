@@ -14,7 +14,7 @@ with sync_playwright() as p:
     context = browser.new_context()
     page = context.new_page()
 
-    page.goto(website_link, timeout=60000)  # увеличим таймаут
+    page.goto(website_link, timeout=60000)
     page.wait_for_selector('div[id="791131336881775312-gallery"]', timeout=15000)
     html = page.content()
     soup = BeautifulSoup(html, "html.parser")
@@ -27,23 +27,24 @@ with sync_playwright() as p:
 
     print("\nNumber of names: ", len(current_names))
 
-    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-    existing_names = set(existing_artists.values_list('artist_name', flat=True))
-
-    for name in current_names:
-        Artist.objects.get_or_create(
-            artist_name=name,
-            website_link=website_link,
-            defaults={
-                'agency_name': 'platformartists',
-                'date_added': today
-            }
-        )
-
-    missing_names = existing_names - current_names
-    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
-
-    print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
-
-
     browser.close()
+
+# --- Теперь отдельно — работа с Django ORM, ВНЕ блока playwright ---
+
+existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+for name in current_names:
+    Artist.objects.get_or_create(
+        artist_name=name,
+        website_link=website_link,
+        defaults={
+            'agency_name': agency_name,
+            'date_added': today
+        }
+    )
+
+missing_names = existing_names - current_names
+Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
+
+print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
