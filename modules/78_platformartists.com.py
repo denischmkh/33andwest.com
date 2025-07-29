@@ -39,7 +39,7 @@ for name in current_names:
         artist_name=name,
         website_link=website_link,
         defaults={
-            'agency_name': agency_name,
+            'agency_name': 'platformartists',
             'date_added': today
         }
     )
