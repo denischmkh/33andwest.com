@@ -1,3 +1,5 @@
+import sys
+
 from django.utils import timezone
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -29,7 +31,10 @@ html = driver.page_source
 
 soup = BeautifulSoup(html, "html.parser")
 #print(soup)
-artists = soup.find("ul",class_="uppercase roster font:rg-con text:roster-artist").find_all("li")
+try:
+    artists = soup.find("ul",class_="uppercase roster font:rg-con text:roster-artist").find_all("li")
+except AttributeError:
+    sys.exit()
 for art in artists:
     a = art.find("a")
     text = a.find(text=True, recursive=False).strip()

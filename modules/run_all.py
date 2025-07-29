@@ -125,6 +125,26 @@ scripts = [
     "140_panacherock.com.py",
     "142_thekurlandagency.com.py"
 ]
+
+errors = [
+    'pure-represents.com',
+    'www.relianttalent.com',
+    'radiusartists.com',
+    'selectmusic.com',
+    'liaisonartists.com',
+    'tourpeachy.com',
+    'teamwass.com',
+    'artistww.com',
+    'platformartists.com',
+    'arrivalartists.com',
+    'reybee.com',
+    'paquinentertainment.com',
+    'newfrontiertouring.com',
+    'earth-agency.com',
+    'thedigitaldept.com',
+    'highrisepr.com',
+]
+
 for script in scripts:
     full_path = os.path.join(os.path.dirname(__file__), script)
     print(f"\n🚀 Running {script}...\n")
