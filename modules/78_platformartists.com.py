@@ -16,7 +16,7 @@ with sync_playwright() as p:
 
     try:
         page.goto(website_link, timeout=60000)  # увеличим таймаут
-        page.wait_for_selector('div#791131336881775312-gallery', timeout=15000)
+        page.wait_for_selector('div[id="791131336881775312-gallery"]', timeout=15000)
         html = page.content()
         soup = BeautifulSoup(html, "html.parser")
 
