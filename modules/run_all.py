@@ -123,27 +123,30 @@ scripts = [
     "133_amodeagency.com.py",
     "136_t-s-agency.com.py",
     "140_panacherock.com.py",
-    "142_thekurlandagency.com.py"
+    "142_thekurlandagency.com.py",
+
+    "51_gersh.com.py",
+    "53_thegreenroompr.com.py",
+    "54_2911.us.py",
+    "55_wecarealotpr.com.py",
+    "56_nastylittleman.com.py",
+    "137_kmgmt.com.py",
+    "138_strangetalent.agency.py",
+    "139_atcmanagement.com.py",
+    "141_leadermgmt.com.py",
+    "134_fatcatmusicgroup.com.py",
+    "135_fatcatmusicgroup.com.py",
+    "92_motherartists.com_booking.py",
+    "93_motherartists.com_mgmt.py",
+    "126_sequelmusicgroup.com.py",
+    "125_clockworkartists.co.uk.py",
+    "121_goodmachinepr.com.py",
+    "111_mickmgmt.com.py",
+    "113_ivpr.com.py",
+    "114_unitedagents.co.uk.py",
+    "52_utaspeakers.com.py"
 ]
 
-errors = [
-    'pure-represents.com',
-    'www.relianttalent.com',
-    'radiusartists.com',
-    'selectmusic.com',
-    'liaisonartists.com',
-    'tourpeachy.com',
-    'teamwass.com',
-    'artistww.com',
-    'platformartists.com',
-    'arrivalartists.com',
-    'reybee.com',
-    'paquinentertainment.com',
-    'newfrontiertouring.com',
-    'earth-agency.com',
-    'thedigitaldept.com',
-    'highrisepr.com',
-]
 
 for script in scripts:
     full_path = os.path.join(os.path.dirname(__file__), script)
@@ -153,11 +156,29 @@ for script in scripts:
     try:
         result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
         print(result.stdout)
-        Status.objects.create(site=site_name, status="OK", date=datetime.date.today())
+        Status.objects.update_or_create(
+            site=site_name,
+            defaults={
+                'status': 'OK',
+                'date': datetime.date.today()
+            }
+        )
     except subprocess.CalledProcessError as e:
         print(f"❌ Error running {script}:")
         print(e.stderr)
-        Status.objects.create(site=site_name, status="Error", date=datetime.date.today())
+        Status.objects.update_or_create(
+            site=site_name,
+            defaults={
+                'status': 'Error',
+                'date': datetime.date.today()
+            }
+        )
     except Exception as e:
         print(f"❌ Unexpected error in {script}: {e}")
-        Status.objects.create(site=site_name, status="Error", date=datetime.date.today())
+        Status.objects.update_or_create(
+            site=site_name,
+            defaults={
+                'status': 'Error',
+                'date': datetime.date.today()
+            }
+        )
