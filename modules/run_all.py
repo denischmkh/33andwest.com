@@ -28,7 +28,7 @@ scripts = [
     "20_pitchperfectpr.com.py",
     "21_pitchandsmith.com.py",
     "22_talentxent.com.py",
-    "23_addition-llc.com.py",
+    "23_beacons.ai.py",
     "24_loaded.gg.py",
     "25_stokedpr.com.py",
     "26_audibletreats.com.py",

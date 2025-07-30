@@ -1,5 +1,6 @@
 from django.utils import timezone
 from selenium import webdriver
+import undetected_chromedriver as uc
 from selenium.webdriver.chrome.options import Options
 from bs4 import BeautifulSoup
 from load_django import *
@@ -8,12 +9,15 @@ import time
 
 today = timezone.now().date()
 
-chrome_options = Options()
+chrome_options = uc.ChromeOptions()
 chrome_options.page_load_strategy = 'eager'
-chrome_options.add_argument("--headless")
+chrome_options.add_argument("--headless=new")  # Лучше использовать new (совместимо с последним Chrome)
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920,1080")
+
+# Создание драйвера
+driver = uc.Chrome(options=chrome_options)
 
 url = f"https://thebullittagency.com/roster/"
 website_link = 'https://thebullittagency.com'
@@ -21,11 +25,12 @@ agency_name = 'thebullittagency.com'
 
 current_names = set()
 
-driver = webdriver.Chrome(options=chrome_options)
 driver.get(url)
-time.sleep(2)
+time.sleep(10)
 
 html = driver.page_source
+
+print(html)
 
 soup = BeautifulSoup(html, "html.parser")
 #print(soup)
