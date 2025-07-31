@@ -55,6 +55,7 @@ class ArtistAdmin(admin.ModelAdmin):
     list_display = ["artist_name", "agency_name", "date_added", "date_removed", "website_link"]
     list_filter = [DateAddedFilter, DateRemovedFilter, AgencyNameFilter]
     search_fields = ["artist_name", "agency_name"]
+    ordering = ['agency_name']
 
 
 admin.site.register(Artist, ArtistAdmin)
