@@ -41,7 +41,12 @@ class AgencyNameFilter(admin.SimpleListFilter):
     parameter_name = 'agency_name'
 
     def lookups(self, request, model_admin):
-        agencies = Artist.objects.order_by().values_list('agency_name', flat=True).distinct()
+        agencies = (
+            Artist.objects
+            .order_by('agency_name')  # сортировка по алфавиту
+            .values_list('agency_name', flat=True)
+            .distinct()
+        )
         return [(agency, agency) for agency in agencies if agency]
 
     def queryset(self, request, queryset):
