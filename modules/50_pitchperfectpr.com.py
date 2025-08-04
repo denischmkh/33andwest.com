@@ -5,9 +5,6 @@ url_n = 'https://www.pitchperfectpr.com/clients/'
 website_link = get_website_link(url_n)
 agency_name = get_agency_name(url_n)
 
-print(f'url: {url_n}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
 
 import requests
 
@@ -38,7 +35,7 @@ headers = {
 
 response = requests.get(url, headers=headers, params=params)
 
-print("Status Code:", response.status_code)
+
 current_names = set()
 
 try:
@@ -51,7 +48,6 @@ try:
 
     save_in(current_names,website_link,'pitchperfectpr')
 
-except Exception:
-    print("Non-JSON Response:")
-    # print(response.text)
+except Exception as e:
+    raise Exception(f'Response error: {response.status_code} - {response.reason} reason: {e}')
 

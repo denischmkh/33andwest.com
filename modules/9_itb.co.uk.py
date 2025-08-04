@@ -44,7 +44,6 @@ headers = {
 }
 
 response = requests.get(url, headers=headers, params=params)
-print(f"Status Code: {response.status_code}")
 
 current_names = set()
 
@@ -54,7 +53,6 @@ while True:
     data = data_json['items']
 
     for name in data:
-        print(name['title'])
         current_names.add(name['title'].strip())
 
     data_pagination = None
@@ -73,7 +71,6 @@ while True:
     }
     response = requests.get(url, headers=headers, params=params)
 
-print(len(current_names))
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
 

@@ -45,8 +45,7 @@ def find_elemets_on_page(locator):
     try:
         return wait.until(EC.presence_of_all_elements_located((By.XPATH,f'{locator}')))
     except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
-        print(f"Error find_elemets_on_page: {e} \n error in :{locator}")
-        return None
+        raise Exception(f"Error find_elemets_on_page: {e} \n error in :{locator}")
 
 # all_links = find_elemets_on_page('//div[@class="grid-title"]')
 
@@ -70,7 +69,6 @@ while True:
 for link in all_links:
 
     link_text = link.text.strip()
-    print(link_text)
     current_names.add(link_text)
 
 

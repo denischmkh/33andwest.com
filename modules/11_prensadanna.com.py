@@ -59,11 +59,6 @@ params = {
 
 response = requests.get(url, headers=headers, params=params)
 
-print(f"Status Code: {response.status_code}")
-# print(f"Response URL: {response.url}")
-# print("Response Headers:")
-# # print(response.headers)
-# print("\nResponse JSON:")
 all_links = []
 try:
     data = response.json()
@@ -72,7 +67,6 @@ try:
     count = len(all_links)
 
     images = data['props']['render']['compProps']['comp-j27w46yp']['images']
-    print(len(images))
 
     for img in images:
         try:
@@ -82,19 +76,15 @@ try:
             title = img['title']
             all_links.append(title)
 
-except ValueError:
-    print(response.text)
+except ValueError as e:
+    raise Exception(f'Response error: {response.status_code} - {response.reason} - reason: {e}')
 
 current_names = set()
 count = len(all_links)
 
 for link in all_links:
-
     link_text = link.strip()
-    print(link_text)
-
     current_names.add(link_text)
-print(len(current_names))
 
 
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')

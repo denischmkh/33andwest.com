@@ -50,6 +50,5 @@ try:
 
     save_in(current_names, website_link, 'pitchperfectpr')
 
-except Exception:
-    print("Non-JSON Response:")
-    # print(response.text)
+except Exception as e:
+    raise Exception(f"Error: {e}")

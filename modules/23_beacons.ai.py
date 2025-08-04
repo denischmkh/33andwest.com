@@ -54,10 +54,8 @@ artists = artists_block.find_all('div', class_="title-lg-strong")
 
 for div in artists:
     text = div.get_text(strip=True)
-    print(text)
     current_names.add(text)
 
-print(len(current_names))
 
 existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

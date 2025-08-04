@@ -50,7 +50,6 @@ for i in range(50):
     except (NoSuchElementException, ElementClickInterceptedException):
         print("❌The 'next' button is not found or is not clickable. Exiting the loop.")
         break
-print("\nNumber of names: ",len(current_names))
 
 existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

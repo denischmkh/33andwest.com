@@ -42,8 +42,7 @@ with sync_playwright() as p:
             args=["--disable-blink-features=AutomationControlled", ]
         )
     except Error as nameError:
-        print(f"Unable to launch browser - {nameError}")
-        exit()
+        raise Exception(f'Error: {nameError}')
 
     # Creating an isolated context
     try:
@@ -56,9 +55,8 @@ with sync_playwright() as p:
             timezone_id="Europe/Kyiv"
         )
     except Error as nameError:
-        print(f"Failed to create context - {nameError}")
         browser.close()
-        exit()
+        raise Exception(f'Error: {nameError}')
 
         # Go to the Brain page
 
@@ -74,7 +72,6 @@ with sync_playwright() as p:
         current_height = page.evaluate("document.body.scrollHeight")
 
         if current_height == previous_height:
-            print("End of page reached, exiting loop")
             break
 
         previous_height = current_height
@@ -84,7 +81,6 @@ with sync_playwright() as p:
         text = art.text_content().strip()
         #print(f"Name: {text}")
         current_names.add(text)
-    print("\nNumber of names: ", len(current_names))
 
     browser.close()
 

@@ -19,10 +19,9 @@ headers = {
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
-print(response.status_code)
+
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 # //div[@class="talent-tiles"]//h4/a
@@ -30,8 +29,7 @@ artists = soup.find_all('h3')
 
 for h4 in artists:
     text = h4.get_text(strip=True)
-    print(text)
     current_names.add(text)
-print(len(artists))
+
 
 save_in(current_names,website_link,'atomsplitterpr')

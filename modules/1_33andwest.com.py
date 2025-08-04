@@ -18,8 +18,7 @@ website_link = 'https://www.33andwest.com/music'
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 artist_buttons = soup.find_all('li', class_='artist')

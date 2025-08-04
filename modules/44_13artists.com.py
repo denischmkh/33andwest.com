@@ -4,9 +4,6 @@ url = 'https://www.13artists.com/artist-roster/'
 website_link = get_website_link(url)
 agency_name = get_agency_name(url)
 
-print(f'url: {url}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
 
 import cloudscraper
 from bs4 import BeautifulSoup
@@ -19,14 +16,12 @@ headers = {
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
-print(response.status_code)
+
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 
 soup = BeautifulSoup(response.text, 'html.parser')
-print(soup.prettify())
 # //div[@class="vc_row wpb_row section vc_row-fluid vc_inner "]//li/a
 artists = soup.find_all('ul', class_="lcp_catlist")
 # .find_all('li')
@@ -34,8 +29,6 @@ for ul in artists:
     li = ul.find_all('li')
     for a in li:
         text = a.find('a').get_text(strip=True)
-        print(text)
         current_names.add(text)
-print(len(current_names))
 
 save_in(current_names,website_link,'13artists')

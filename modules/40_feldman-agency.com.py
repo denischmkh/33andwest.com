@@ -4,10 +4,6 @@ url = 'https://feldman-agency.com/talent'
 website_link = get_website_link(url)
 agency_name = get_agency_name(url)
 
-print(f'url {url}')
-print(f'website_link {website_link}')
-print(f'agency_name {agency_name}')
-
 import cloudscraper
 from bs4 import BeautifulSoup
 
@@ -19,10 +15,8 @@ headers = {
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
-print(response.status_code)
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 # //div[@class="talent-tiles"]//h4/a
@@ -30,8 +24,6 @@ artists = soup.find('div', class_="talent-tiles").find_all('h4')
 
 for h4 in artists:
     text = h4.find('a').get_text(strip=True)
-    print(text)
     current_names.add(text)
-print(len(artists))
 
 save_in(current_names,website_link,'feldman-agency')

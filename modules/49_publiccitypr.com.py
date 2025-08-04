@@ -6,10 +6,6 @@ url = 'http://publiccitypr.com/public-city-artists'
 website_link = get_website_link(url)
 agency_name = get_agency_name(url)
 
-print(f'url: {url}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
-
 import cloudscraper
 from bs4 import BeautifulSoup
 
@@ -22,10 +18,8 @@ current_names = set()
 def get_artists(url):
     response = cloudscraper.create_scraper().get(url, headers=headers)
 
-    print(response.status_code)
     if not response.ok:
-        print("❌ Failed to load the page.")
-        exit()
+        raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
     soup = BeautifulSoup(response.text, 'html.parser')
     # print(soup.prettify())
@@ -34,9 +28,8 @@ def get_artists(url):
 
     for span in artists:
         text = span.get_text(strip=True).split('(')[0]
-        print(text)
         current_names.add(text)
-    print(len(artists))
+
 
 get_artists(url)
 save_in(current_names,website_link,'publiccitypr')

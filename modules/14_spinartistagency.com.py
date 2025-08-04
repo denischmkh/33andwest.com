@@ -20,8 +20,7 @@ current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 lost = []

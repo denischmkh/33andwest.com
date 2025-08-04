@@ -56,10 +56,8 @@ for page in range(1,3):
             #print(f"Name: {text}")
             current_names.add(text)
     else:
-        print("❌ Failed to load the page.")
-        exit()
+        raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
-print("\nNumber of names: ",len(current_names))
 
 existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

@@ -17,10 +17,8 @@ headers = {
     'Accept-Language': 'en-En,en;q=0.9,en-US;q=0.8,en;q=0.7'
 }
 response = cloudscraper.create_scraper().get(url, headers=headers)
-print(response.status_code)
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 artist_buttons = soup.find('ul', class_="visual block-grid hide-on-print")
@@ -31,9 +29,7 @@ current_names = set()
 for li in ul:
     text = li.get_text(strip=True)
     current_names.add(text)
-    print(text)
 
-print(f"✅ Знайдено {len(current_names)} артистів")
 
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

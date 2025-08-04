@@ -84,7 +84,6 @@ for page in range(45):
     next_page_button.click()
     time.sleep(2.5)
 
-print(" Number of names: ",len(current_names))
 
 existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

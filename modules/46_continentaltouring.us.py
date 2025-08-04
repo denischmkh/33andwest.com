@@ -7,9 +7,6 @@ url_n = 'https://www.continentaltouring.us/roster'
 website_link = get_website_link(url_n)
 agency_name = get_agency_name(url_n)
 
-print(f'url: {url_n}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
 
 headers = {
     "accept": "application/json, text/plain, */*",
@@ -31,22 +28,18 @@ headers = {
 response = requests.get(url, headers=headers)
 current_names = set()
 
-# Print status and JSON content
-print("Status Code:", response.status_code)
+
 try:
     json_responce = response.json()
     artists = json_responce['data']['artists']
 
     for a in artists:
         artist = a['title']
-        print(artist)
         current_names.add(artist)
 
-    print(len(current_names))
     save_in(current_names,website_link,'continentaltouring')
 
 
 
-except Exception:
-    print("Response is not in JSON format:")
-    print(response.text)
+except Exception as e:
+    raise Exception(f'Response error: {response.status_code} - {response.reason} - Reason: {e}')

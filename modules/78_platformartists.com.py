@@ -25,8 +25,6 @@ with sync_playwright() as p:
         name = art.text.strip()
         current_names.add(name)
 
-    print("\nNumber of names: ", len(current_names))
-
     browser.close()
 
 # --- Теперь отдельно — работа с Django ORM, ВНЕ блока playwright ---

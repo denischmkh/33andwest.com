@@ -50,7 +50,6 @@ for typr_person in lst:
     }
 
     response = requests.post(url, headers=headers, data=payload)
-    print("Status Code:", response.status_code)
     # print("Response Headers:\n", response.headers)
     # print("Response Body:\n", response.text)
 
@@ -61,10 +60,8 @@ for typr_person in lst:
 
     for a in artists:
         text = a.get_text(strip=True)
-        print(text)
         current_names.add(text)
 
-print(len(current_names))
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
 

@@ -25,8 +25,7 @@ response = cloudscraper.create_scraper().get(url, headers=headers)
 # //div[@class="content"]//div[@class="fluid-engine fe-62dee08016f033f687f9b4d0"]//a
 
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -34,13 +33,8 @@ soup = BeautifulSoup(response.text, 'html.parser')
 artists = soup.find('div', class_="content").find('div',class_="fluid-engine fe-62dee08016f033f687f9b4d0" ).find_all('a')
 
 for div in artists:
-
     text = div.get_text(strip=True)
-    
-    print(text)
     current_names.add(text)
-
-print(len(current_names))
         
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

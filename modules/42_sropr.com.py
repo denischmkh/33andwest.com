@@ -4,9 +4,6 @@ url = 'http://sropr.com/client-roster/'
 website_link = get_website_link(url)
 agency_name = get_agency_name(url)
 
-print(f'url: {url}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
 
 import cloudscraper
 from bs4 import BeautifulSoup
@@ -19,10 +16,9 @@ headers = {
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
 
-print(response.status_code)
+
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
 # //div[@class="thumb-title "]
 
@@ -32,8 +28,7 @@ artists = soup.find_all('div', class_="thumb-title")
 
 for h4 in artists:
     text = h4.get_text(strip=True)
-    print(text)
     current_names.add(text)
-print(len(artists))
+
 
 save_in(current_names,website_link,'sropr')

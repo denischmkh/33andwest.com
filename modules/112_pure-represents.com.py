@@ -40,7 +40,6 @@ for art in artists:
     text = a.find(text=True, recursive=False).strip()
     #print(f"Name: {text}")
     current_names.add(text)
-print("\nNumber of names: ",len(current_names))
 
 existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))

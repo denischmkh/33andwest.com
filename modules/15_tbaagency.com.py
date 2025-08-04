@@ -18,22 +18,18 @@ headers = {
 
 current_names = set()
 response = cloudscraper.create_scraper().get(url, headers=headers)
-print(response.status_code)
 
 soup = BeautifulSoup(response.text, 'html.parser')
 # print(soup.prettify())
 
 if not response.ok:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
 # //a[@class="artistLink"]
 artists = soup.select('a.artistLink')
 for a in artists:
     text = a.get_text(strip=True)
     current_names.add(text)
-        
 
-print(len(current_names))
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
 

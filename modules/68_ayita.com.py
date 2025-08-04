@@ -60,7 +60,6 @@ if response.status_code == 200:
             else:
                 #print(f"Name: {text}")
                 current_names.add(text)
-    print("\nNumber of names: ",len(current_names))
 
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
@@ -81,5 +80,4 @@ if response.status_code == 200:
     print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 
 else:
-    print("❌ Failed to load the page.")
-    exit()
+    raise Exception(f'Response error: {response.status_code} - {response.reason}')
