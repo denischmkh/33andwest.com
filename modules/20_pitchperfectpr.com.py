@@ -19,7 +19,7 @@ params = {
 
 headers = {
     "accept": "*/*",
-    "accept-encoding": "gzip, deflate, br, zstd",
+    # "accept-encoding": "gzip, deflate, br, zstd",
     "accept-language": "uk-UA,uk;q=0.9,en-GB;q=0.8,en;q=0.7,en-US;q=0.6",
     "cache-control": "no-cache",
     "content-type": "application/json;charset=UTF-8",
