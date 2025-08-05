@@ -51,11 +51,14 @@ for page in range(1, 100):
 
     try:
         data = response.json().get('result')
-        for key, value in data.items():
-            for html in value:
-                soup = BS(html)
-                name = soup.find(name='div', class_='grid-title').text.strip()
-                current_names.add(name)
+        if isinstance(data, dict):
+            for key, value in data.items():
+                for html in value:
+                    soup = BS(html, 'html.parser')
+                    name = soup.find(name='div', class_='grid-title').text.strip()
+                    current_names.add(name)
+        else:
+            break
     except (ValueError, AttributeError) as e:
         raise Exception(e)
 
