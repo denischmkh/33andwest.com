@@ -56,7 +56,6 @@ driver = webdriver.Chrome(options=options)
 
 driver.get(url)
 time.sleep(2)
-driver.close()
 
 current_names = set()
 
