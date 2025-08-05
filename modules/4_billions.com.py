@@ -21,14 +21,15 @@ from parser_app.models import Artist
 today = timezone.now().date()
 
 options = uc.ChromeOptions()
-options.add_argument("--headless=new")
+# options.add_argument("--headless=new")
 options.add_argument("--disable-gpu")
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--disable-notifications")
 options.add_argument("--lang=en-US")
 options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
 
-driver = uc.Chrome(options=options)
+from config import VERSION_MAIN
+driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
 wait = WebDriverWait(driver, 20)
 
 driver.get(url)
