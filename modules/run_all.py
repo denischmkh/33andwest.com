@@ -153,7 +153,7 @@ for script in scripts:
     site_name = script.replace('.py', '')
     site_name = ''.join(site_name.split('_')[1:])
     try:
-        result = subprocess.run(["xvfb-run", "-a", "python3", full_path], check=True, capture_output=True, text=True)
+        result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
         print(result.stdout)
         Status.objects.update_or_create(
             site=site_name,
