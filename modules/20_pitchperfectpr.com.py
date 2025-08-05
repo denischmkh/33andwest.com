@@ -34,12 +34,14 @@ headers = {
 
 response = requests.get(url, headers=headers, params=params)
 
+print("Status code:", response.status_code)
+print("Response text:", response.text[:500])
+
 current_names = set()
 
 try:
     json_respoce = response.json()
     items = json_respoce['items']
-    # print(items)
 
     for itm in items:
         current_names.add(itm['title'])
