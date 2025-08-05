@@ -1,6 +1,7 @@
 import os
 import datetime
 import subprocess
+import sys
 import time
 
 from load_django import *
@@ -147,7 +148,13 @@ scripts = [
     "114_unitedagents.co.uk.py",
     "52_utaspeakers.com.py"
 ]
+import undetected_chromedriver as uc
 
+driver = uc.Chrome()
+driver.get('https://icons8.com/icons/set/clothing-store--style-office')
+time.sleep(10)
+print(driver.page_source)
+sys.exit()
 
 for script in scripts:
     full_path = os.path.join(os.path.dirname(__file__), script)
