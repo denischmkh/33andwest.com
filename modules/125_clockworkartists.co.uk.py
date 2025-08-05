@@ -46,7 +46,7 @@ website_link = 'https://www.clockworkartists.co.uk'
 agency_name = 'clockworkartists.co.uk'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 

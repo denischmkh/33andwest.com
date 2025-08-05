@@ -11,7 +11,7 @@ today = timezone.now().date()
 
 chrome_options = uc.ChromeOptions()
 chrome_options.page_load_strategy = 'eager'
-chrome_options.add_argument("--headless=new")  # Лучше использовать new (совместимо с последним Chrome)
+# chrome_options.add_argument("--headless=new")  # Лучше использовать new (совместимо с последним Chrome)
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920,1080")

@@ -46,7 +46,7 @@ website_link = 'https://gersh.com'
 agency_name = 'gersh.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -56,6 +56,7 @@ driver = webdriver.Chrome(options=options)
 
 driver.get(url)
 time.sleep(2)
+driver.close()
 
 current_names = set()
 

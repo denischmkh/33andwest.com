@@ -46,7 +46,7 @@ website_link = 'https://www.mickmgmt.com'
 agency_name = 'mickmgmt.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 

@@ -46,7 +46,7 @@ website_link = 'https://www.thegreenroompr.com'
 agency_name = 'thegreenroompr.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -60,6 +60,7 @@ time.sleep(2)
 current_names = set()
 
 html = driver.page_source
+driver.close()
 soup = BeautifulSoup(html, "html.parser")
 
 div_all = soup.find_all("div",class_="w-layout-blockcontainer list w-container")

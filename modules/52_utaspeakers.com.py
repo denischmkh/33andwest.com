@@ -46,7 +46,7 @@ website_link = 'https://www.utaspeakers.com'
 agency_name = 'utaspeakers.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -63,6 +63,7 @@ driver.execute_script("window.scrollTo(0, 4000);")
 time.sleep(3)
 
 html = driver.page_source
+driver.close()
 soup = BeautifulSoup(html, "html.parser")
 
 artists = soup.find_all("div",class_="pt-2 mr-3 text-sm font-medium cursor-pointer xs:text-base xs:mt3 regular-font group-hover:link-underline")

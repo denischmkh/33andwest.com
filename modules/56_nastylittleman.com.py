@@ -46,7 +46,7 @@ website_link = 'https://www.nastylittleman.com'
 agency_name = 'nastylittleman.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -61,6 +61,7 @@ current_names = set()
 
 html = driver.page_source
 soup = BeautifulSoup(html, "html.parser")
+driver.close()
 
 artists = soup.find("p",id="top")
 full_text = artists.get_text()

@@ -46,7 +46,7 @@ website_link = 'https://2911.us'
 agency_name = '2911.us'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -60,6 +60,7 @@ time.sleep(2)
 current_names = set()
 
 html = driver.page_source
+driver.close()
 soup = BeautifulSoup(html, "html.parser")
 
 artists = soup.find_all("h2")

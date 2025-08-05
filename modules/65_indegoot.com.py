@@ -10,7 +10,7 @@ today = timezone.now().date()
 
 chrome_options = Options()
 chrome_options.page_load_strategy = 'eager'
-chrome_options.add_argument("--headless")
+# chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920,1080")
@@ -28,6 +28,7 @@ time.sleep(2)
 html = driver.page_source
 
 soup = BeautifulSoup(html, "html.parser")
+driver.close()
 #print(soup)
 artists_all = soup.find("div", class_="summary-item-list sqs-gallery sqs-gallery-design-autogrid")
 artists = artists_all.find_all("div", recursive=False)

@@ -26,7 +26,7 @@ from parser_app.models import Artist
 today = timezone.now().date()
 
 options = uc.ChromeOptions()
-options.add_argument("--headless=new")  # обязательно!
+# options.add_argument("--headless=new")  # обязательно!
 options.add_argument("--disable-gpu")   # для совместимости
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-blink-features=AutomationControlled")

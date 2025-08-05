@@ -48,7 +48,7 @@ website_link = 'https://www.arrivalartists.com'
 agency_name = 'arrivalartists.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 

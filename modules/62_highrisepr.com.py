@@ -47,7 +47,7 @@ website_link = 'https://www.highrisepr.com'
 agency_name = 'highrisepr.com'
 
 options = Options()
-options.add_argument("--headless")
+# options.add_argument("--headless")
 options.add_argument("--no-sandbox")
 options.add_argument("--disable-dev-shm-usage")
 
@@ -62,6 +62,7 @@ current_names = set()
 
 html = driver.page_source
 soup = BeautifulSoup(html, "html.parser")
+driver.close()
 
 script_tag = soup.find("script", {"type": "application/json", "id": "wix-warmup-data"})
 if script_tag:
