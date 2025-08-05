@@ -6,7 +6,6 @@ from parser_app.models import Status
 
 
 scripts = [
-    '5_caa.com.py',
     '34_mbcpr.com.py',
 ]
 
