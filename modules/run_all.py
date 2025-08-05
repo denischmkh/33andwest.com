@@ -153,6 +153,7 @@ scripts = [
 
 display = Display(visible=False, size=(1280, 720))
 display.start()
+print("DISPLAY:", os.environ.get("DISPLAY"))
 
 try:
     for script in scripts:
