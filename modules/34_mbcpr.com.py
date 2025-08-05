@@ -37,12 +37,6 @@ driver.get(url)
 time.sleep(5)
 
 current_names = set()
-
-def find_elemets_on_page(locator):
-    try:
-        return wait.until(EC.presence_of_all_elements_located((By.XPATH,f'{locator}')))
-    except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
-        raise Exception(f"Error find_elemets_on_page: {e} \n error in :{locator}")
     
 
 for _ in range(8):
