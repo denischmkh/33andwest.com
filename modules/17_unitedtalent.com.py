@@ -24,6 +24,7 @@ options = uc.ChromeOptions()
 # options.add_argument("--headless=new")  # обязательно!
 options.add_argument("--disable-gpu")   # для совместимости
 options.add_argument("--no-sandbox")
+options.add_argument("--disable-dev-shm-usage")
 options.add_argument("--disable-blink-features=AutomationControlled")
 options.add_argument("--disable-notifications")
 options.add_argument("--lang=en-US")

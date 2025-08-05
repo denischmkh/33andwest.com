@@ -6,7 +6,16 @@ from parser_app.models import Status
 
 
 scripts = [
-    '34_mbcpr.com.py',
+    '32_sacksco.com.py',
+    '25_stokedpr.com.py',
+    '130_thebullittagency.com.py',
+    '6_chameleon.unitedtalent.com.py',
+    '39_redlightmanagement.com.py',
+    '28_grandstandhq.com.py',
+    '51_gersh.com.py',
+    '43_dynamictalent.com.py',
+    '5_caa.com.py',
+    '36_braceyourselfpr.com.py',
 ]
 
 
@@ -16,7 +25,7 @@ for script in scripts:
     site_name = script.replace('.py', '')
     site_name = ''.join(site_name.split('_')[1:])
     try:
-        result = subprocess.run(["xvfb-run", "-a", "python3", full_path], check=True, capture_output=True, text=True)
+        result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
         print(result.stdout)
         Status.objects.update_or_create(
             site=site_name,
