@@ -152,33 +152,38 @@ for script in scripts:
     print(f"\n🚀 Running {script}...\n")
     site_name = script.replace('.py', '')
     site_name = ''.join(site_name.split('_')[1:])
-    try:
-        result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
-        print(result.stdout)
-        Status.objects.update_or_create(
-            site=site_name,
-            defaults={
-                'status': 'OK',
-                'date': datetime.date.today()
-            }
-        )
-    except subprocess.CalledProcessError as e:
-        print(f"❌ Error running {script}:")
-        print("stdout:\n", e.stdout)
-        print("stderr:\n", e.stderr)
-        Status.objects.update_or_create(
-            site=site_name,
-            defaults={
-                'status': 'Error',
-                'date': datetime.date.today()
-            }
-        )
-    except Exception as e:
-        print(f"❌ Unexpected error in {script}: {e}")
-        Status.objects.update_or_create(
-            site=site_name,
-            defaults={
-                'status': 'Error',
-                'date': datetime.date.today()
-            }
-        )
+    r = 0
+    while r != 5:
+        try:
+            result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
+            print(result.stdout)
+            Status.objects.update_or_create(
+                site=site_name,
+                defaults={
+                    'status': 'OK',
+                    'date': datetime.date.today()
+                }
+            )
+            break
+        except subprocess.CalledProcessError as e:
+            print(f"❌ Error running {script}:")
+            print("stdout:\n", e.stdout)
+            print("stderr:\n", e.stderr)
+            Status.objects.update_or_create(
+                site=site_name,
+                defaults={
+                    'status': 'Error',
+                    'date': datetime.date.today()
+                }
+            )
+            r += 1
+        except Exception as e:
+            print(f"❌ Unexpected error in {script}: {e}")
+            Status.objects.update_or_create(
+                site=site_name,
+                defaults={
+                    'status': 'Error',
+                    'date': datetime.date.today()
+                }
+            )
+            r += 1
