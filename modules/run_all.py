@@ -164,7 +164,8 @@ for script in scripts:
         )
     except subprocess.CalledProcessError as e:
         print(f"❌ Error running {script}:")
-        print(e.stderr)
+        print("stdout:\n", e.stdout)
+        print("stderr:\n", e.stderr)
         Status.objects.update_or_create(
             site=site_name,
             defaults={
