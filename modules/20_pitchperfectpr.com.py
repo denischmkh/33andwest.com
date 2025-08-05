@@ -1,8 +1,12 @@
+import json
+
 from save_in_db import *
 
 url_n = 'https://www.pitchperfectpr.com/clients/'
 website_link = get_website_link(url_n)
 agency_name = get_agency_name(url_n)
+import gzip
+import io
 
 
 import requests
@@ -34,13 +38,19 @@ headers = {
 
 response = requests.get(url, headers=headers, params=params)
 
-print("Status code:", response.status_code)
-print("Response text:", response.text[:500])
 
 current_names = set()
 
 try:
-    json_respoce = response.json()
+    if response.headers.get('Content-Encoding') == 'gzip':
+        buf = io.BytesIO(response.content)
+        f = gzip.GzipFile(fileobj=buf)
+        decoded = f.read().decode('utf-8')
+    else:
+        decoded = response.text
+
+    print("Decoded text (truncated):", decoded[:500])
+    json_respoce = json.loads(decoded)
     items = json_respoce['items']
 
     for itm in items:
