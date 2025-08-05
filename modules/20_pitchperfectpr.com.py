@@ -4,9 +4,6 @@ url_n = 'https://www.pitchperfectpr.com/clients/'
 website_link = get_website_link(url_n)
 agency_name = get_agency_name(url_n)
 
-print(f'url: {url_n}')
-print(f'website_link: {website_link}')
-print(f'agency_name: {agency_name}')
 
 import requests
 
@@ -37,7 +34,6 @@ headers = {
 
 response = requests.get(url, headers=headers, params=params)
 
-print("Status Code:", response.status_code)
 current_names = set()
 
 try:

@@ -55,7 +55,6 @@ scripts = [
     "47_freetradeagency.co.uk.py",
     "48_girlieaction.com.py",
     "49_publiccitypr.com.py",
-    "50_pitchperfectpr.com.py",
     "60_ebmediapr.com.py",
     "61_7smgmt.com.py",
     "62_highrisepr.com.py",

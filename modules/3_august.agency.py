@@ -52,7 +52,6 @@ count = len(all_links)
 for link in all_links:
 
     link_text = link.text.strip()
-    print(link_text)
     current_names.add(link_text)
 
 

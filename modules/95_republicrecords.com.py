@@ -38,7 +38,7 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.republicrecords.com/artists/"
+url = f"https://www.republicrecords.com/pages/artists"
 website_link = 'https://www.republicrecords.com'
 agency_name = 'republicrecords.com'
 
@@ -49,12 +49,10 @@ response = requests.get(url, headers=headers, cookies=cookies)
 if response.status_code == 200:
 
     soup = BeautifulSoup(response.text, "html.parser")
-    artists = soup.find_all("div",class_="artist")
+    artists = soup.find_all("p",class_="text_body_lg")
 
     for art in artists:
-        h3 = art.find("h3")
-        text = h3.text.strip()
-        #print(f"Name: {text}")
+        text = art.text.strip()
         current_names.add(text)
 
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')

@@ -55,11 +55,9 @@ for page in range(1, 100):
             for html in value:
                 soup = BS(html)
                 name = soup.find(name='div', class_='grid-title').text.strip()
-                print(name)
                 current_names.add(name)
     except (ValueError, AttributeError) as e:
-        print(e)
-        break
+        raise Exception(e)
 
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
