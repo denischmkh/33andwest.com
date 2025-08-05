@@ -41,10 +41,6 @@ response = requests.get(url, headers=headers, params=params)
 current_names = set()
 
 try:
-    print("Status code:", response.status_code)
-    print("Content-Encoding:", response.headers.get('Content-Encoding'))
-    print("Response text (truncated):", response.text[:500])
-
     # Просто парсим JSON из response.text (requests сам распаковывает gzip, если нужно)
     json_response = json.loads(response.text)
     items = json_response['items']
