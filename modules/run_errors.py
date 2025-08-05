@@ -6,16 +6,10 @@ from parser_app.models import Status
 
 
 scripts = [
-    '32_sacksco.com.py',
-    '25_stokedpr.com.py',
-    '130_thebullittagency.com.py',
-    '6_chameleon.unitedtalent.com.py',
-    '39_redlightmanagement.com.py',
-    '28_grandstandhq.com.py',
+    '34_mbcpr.com.py',
     '51_gersh.com.py',
-    '43_dynamictalent.com.py',
-    '5_caa.com.py',
     '36_braceyourselfpr.com.py',
+    '17_unitedtalent.com.py'
 ]
 
 
