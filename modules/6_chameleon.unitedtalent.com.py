@@ -42,7 +42,6 @@ params = {
 all_links = []
 response = requests.get(url, headers=headers, params=params)
 
-print(f"Status Code: {response.status_code}")
 
 data_json = response.json()
 data = data_json['data']
@@ -56,8 +55,6 @@ for name in data:
     # all_links.append(artist_name)
     current_names.add(artist_name)
 
-print('='*50)
-print(len(current_names))
 
 
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
