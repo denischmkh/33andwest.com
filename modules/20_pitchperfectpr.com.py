@@ -38,20 +38,16 @@ headers = {
 
 response = requests.get(url, headers=headers, params=params)
 
-
 current_names = set()
 
 try:
-    if response.headers.get('Content-Encoding') == 'gzip':
-        buf = io.BytesIO(response.content)
-        f = gzip.GzipFile(fileobj=buf)
-        decoded = f.read().decode('utf-8')
-    else:
-        decoded = response.text
+    print("Status code:", response.status_code)
+    print("Content-Encoding:", response.headers.get('Content-Encoding'))
+    print("Response text (truncated):", response.text[:500])
 
-    print("Decoded text (truncated):", decoded[:500])
-    json_respoce = json.loads(decoded)
-    items = json_respoce['items']
+    # Просто парсим JSON из response.text (requests сам распаковывает gzip, если нужно)
+    json_response = json.loads(response.text)
+    items = json_response['items']
 
     for itm in items:
         current_names.add(itm['title'])
