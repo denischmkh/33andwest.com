@@ -31,8 +31,6 @@ time.sleep(10)
 
 html = driver.page_source
 
-print(html)
-
 soup = BeautifulSoup(html, "html.parser")
 #print(soup)
 artists = soup.find_all("a",class_="gigwell-roster-artist")
