@@ -17,7 +17,8 @@ chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--window-size=1920,1080")
 
 # Создание драйвера
-driver = uc.Chrome(options=chrome_options)
+from config import VERSION_MAIN
+driver = uc.Chrome(options=chrome_options, version_main=VERSION_MAIN)
 
 url = f"https://thebullittagency.com/roster/"
 website_link = 'https://thebullittagency.com'

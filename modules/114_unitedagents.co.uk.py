@@ -55,6 +55,7 @@ options.add_argument("--disable-dev-shm-usage")
 
 user_data_dir = tempfile.mkdtemp()
 options.add_argument(f'--user-data-dir={user_data_dir}')
+
 driver = webdriver.Chrome(options=options)
 
 driver.get(url)
