@@ -151,12 +151,10 @@ scripts = [
     "52_utaspeakers.com.py"
 ]
 
-
+display = Display(visible=False, size=(1280, 720))
+display.start()
 
 try:
-    display = Display(visible=False, size=(1280, 720))
-    display.start()
-    print("DISPLAY:", os.environ.get("DISPLAY"))
     for script in scripts:
         full_path = os.path.join(os.path.dirname(__file__), script)
         print(f"\n🚀 Running {script}...\n")

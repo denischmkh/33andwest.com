@@ -2,9 +2,6 @@ from pyvirtualdisplay import Display
 import os
 import undetected_chromedriver as uc
 
-import os
-os.environ["DISPLAY"] = ":101"
-
 import shutil
 print("🔍 Xvfb path found by shutil.which():", shutil.which("Xvfb"))
 
