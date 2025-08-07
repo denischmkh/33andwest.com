@@ -124,7 +124,7 @@ wait = WebDriverWait(driver, 20)
 
 
 for script in scripts:
-    print(f"🔄 Функция {script.__name__} {script.__file__} начала отрабатывать")
+    print(f"🔄 Функция {script.__name__} {script.__module__} начала отрабатывать")
     script(driver=driver)
     print(f"✅ Функция {script.__name__} отработала")
 
