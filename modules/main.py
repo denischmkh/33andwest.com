@@ -27,10 +27,12 @@ from _54_2911_us import parse54
 from _56_nastylittleman_com import parse56
 from _62_highrisepr_com import parse62
 from _64_thedigitaldept_com import parse64
+from _65_indegoot_com import parse65
+from _67_earth_agency_com import parse67
 from config import VERSION_MAIN
 
 scripts = [parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
-           parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64]
+           parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67]
 
 # Проверка на висячий дисплей
 def kill_xvfb():
