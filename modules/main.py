@@ -1,5 +1,6 @@
 import os
 import subprocess
+import signal
 from pyvirtualdisplay import Display
 import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
