@@ -45,47 +45,47 @@ url = f"https://selectmusic.com.au/artist/"
 website_link = 'https://selectmusic.com.au'
 agency_name = 'selectmusic.com'
 
-options = Options()
-# options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+# options = Options()
+# # options.add_argument("--headless")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# user_data_dir = tempfile.mkdtemp()
+# options.add_argument(f'--user-data-dir={user_data_dir}')
+# driver = webdriver.Chrome(options=options)
+def parse86(driver):
+    driver.get(url)
+    time.sleep(2)
 
-user_data_dir = tempfile.mkdtemp()
-options.add_argument(f'--user-data-dir={user_data_dir}')
-driver = webdriver.Chrome(options=options)
+    current_names = set()
 
-driver.get(url)
-time.sleep(2)
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
 
-current_names = set()
+    artists = soup.find_all("div",class_="list-break")
+    for div_all in artists:
+        li_all = div_all.find_all("li")
+        for art in li_all:
+            text = art.text.strip()
+            if len(text) > 1:
+                #print(f"Name: {text}")
+                current_names.add(text)
 
-html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
+    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+    existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-artists = soup.find_all("div",class_="list-break")
-for div_all in artists:
-    li_all = div_all.find_all("li")
-    for art in li_all:
-        text = art.text.strip()
-        if len(text) > 1:
-            #print(f"Name: {text}")
-            current_names.add(text)
+    for name in current_names:
+        artist, created = Artist.objects.get_or_create(
+            artist_name=name,
+            website_link=website_link,
+            defaults={
+                'agency_name': 'selectmusic',
+                'date_added': today
+            }
+        )
 
-existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-existing_names = set(existing_artists.values_list('artist_name', flat=True))
+    missing_names = existing_names - current_names
+    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
-for name in current_names:
-    artist, created = Artist.objects.get_or_create(
-        artist_name=name,
-        website_link=website_link,
-        defaults={
-            'agency_name': 'selectmusic',
-            'date_added': today
-        }
-    )
-
-missing_names = existing_names - current_names
-Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
-
-print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 

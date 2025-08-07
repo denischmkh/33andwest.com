@@ -29,10 +29,25 @@ from _62_highrisepr_com import parse62
 from _64_thedigitaldept_com import parse64
 from _65_indegoot_com import parse65
 from _67_earth_agency_com import parse67
+from _69_newfrontiertouring_com import parse69
+from _70_paquinentertainment_com import parse70
+from _71_reybee_com import parse71
+from _76_arrivalartists_com import parse76
+from _78_platformartists_com import parse78
+from _79_artistww_com import parse79
+from _83_teamwass_com import parse83
+from _84_tourpeachy_com import parse84
+from _85_liaisonartists_com import parse85
+from _86_selectmusic_com import parse86
+from _87_radiusartists_com import parse87
+from _89_relianttalent_com import parse89
 from config import VERSION_MAIN
 
-scripts = [parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
-           parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67]
+scripts = [
+    parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
+    parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67,
+    parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89
+]
 
 # Проверка на висячий дисплей
 def kill_xvfb():

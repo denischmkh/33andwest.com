@@ -41,49 +41,51 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.relianttalent.com/roster"
-website_link = 'https://www.relianttalent.com'
-agency_name = 'relianttalent.com'
+url = f"https://www.teamwass.com/artist-roster/"
+website_link = 'https://www.teamwass.com'
+agency_name = 'teamwass.com'
 
-options = Options()
-# options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+# options = Options()
+# # options.add_argument("--headless")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# user_data_dir = tempfile.mkdtemp()
+# options.add_argument(f'--user-data-dir={user_data_dir}')
+# driver = webdriver.Chrome(options=options)
+def parse83(driver):
+    driver.get(url)
+    time.sleep(2)
 
-user_data_dir = tempfile.mkdtemp()
-options.add_argument(f'--user-data-dir={user_data_dir}')
-driver = webdriver.Chrome(options=options)
+    current_names = set()
 
-driver.get(url)
-time.sleep(2)
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
 
-current_names = set()
+    artists = soup.find("div",class_="search-results-view search-grid-view").find_all("ul")
+    for ul in artists:
+        li_all = ul.find_all("li")
+        for art in li_all:
+            text = art.text.strip()
+            #print(f"Name: {text}")
+            current_names.add(text)
 
-html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
 
-artists = soup.find_all("a",class_="gigwell-roster-artist")
+    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+    existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-for art in artists:
-    text = art.text.strip()
-    #print(f"Name: {text}")
-    current_names.add(text)
+    for name in current_names:
+        artist, created = Artist.objects.get_or_create(
+            artist_name=name,
+            website_link=website_link,
+            defaults={
+                'agency_name': 'teamwass',
+                'date_added': today
+            }
+        )
 
-existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-existing_names = set(existing_artists.values_list('artist_name', flat=True))
+    missing_names = existing_names - current_names
+    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
-for name in current_names:
-    artist, created = Artist.objects.get_or_create(
-        artist_name=name,
-        website_link=website_link,
-        defaults={
-            'agency_name': 'relianttalent',
-            'date_added': today
-        }
-    )
-
-missing_names = existing_names - current_names
-Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
-
-print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 
