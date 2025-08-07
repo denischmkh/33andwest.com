@@ -43,7 +43,7 @@ def clean_display():
 clean_display()
 
 # Запускаем новый виртуальный дисплей
-dp = Display(visible=0, size=(1280, 720), display=99)
+dp = Display(visible=0, size=(1280, 720), use_display=':99')
 dp.start()
 print("[+] Новый виртуальный дисплей запущен.")
 
