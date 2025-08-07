@@ -118,4 +118,4 @@ for script in scripts:
                 'date': datetime.date.today()
             }
         )
-    time.sleep(10)
+    time.sleep(1)
