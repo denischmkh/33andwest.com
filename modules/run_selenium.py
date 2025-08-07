@@ -3,6 +3,8 @@ import os
 import re
 import subprocess
 import signal
+import time
+
 from pyvirtualdisplay import Display
 import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
@@ -85,6 +87,9 @@ scripts = [
 ]
 
 # Проверка на висячий дисплей
+MAX_RETRIES = 5
+RETRY_DELAY = 15  # секунд
+
 def kill_xvfb():
     try:
         result = subprocess.run(
@@ -103,24 +108,53 @@ def kill_xvfb():
     except Exception as e:
         print(f"⚠️ Ошибка при завершении Xvfb: {e}")
 
-kill_xvfb()
 
-# Запускаем новый виртуальный дисплей
-dp = Display(visible=False, size=(1280, 720))
-dp.start()
-print("[+] Новый виртуальный дисплей запущен.")
+def start_driver_with_retries():
+    for attempt in range(1, MAX_RETRIES + 1):
+        print(f"\n🔁 Попытка запуска #{attempt}")
+        kill_xvfb()
+        time.sleep(1)
 
-# Настройки Chrome
-options = uc.ChromeOptions()
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--disable-notifications")
-options.add_argument("--lang=en-US")
-options.add_argument(
-    "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+        try:
+            dp = Display(visible=False, size=(1280, 720))
+            dp.start()
+            print(f"[+] Виртуальный дисплей запущен: :{dp.display}")
+        except Exception as e:
+            print(f"❌ Ошибка запуска дисплея: {e}")
+            time.sleep(RETRY_DELAY)
+            continue
 
-# Запуск Chrome
-driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
+        try:
+            options = uc.ChromeOptions()
+            options.add_argument("--disable-gpu")
+            options.add_argument("--disable-blink-features=AutomationControlled")
+            options.add_argument("--disable-notifications")
+            options.add_argument("--lang=en-US")
+            options.add_argument(
+                "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+
+            driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
+            wait = WebDriverWait(driver, 20)
+
+            print("✅ Браузер успешно запущен.")
+            return driver, dp  # успех, возвращаем driver и дисплей
+
+        except Exception as e:
+            print(f"❌ Ошибка запуска браузера: {e}")
+            try:
+                dp.stop()
+            except Exception:
+                pass
+            time.sleep(RETRY_DELAY)
+
+    print("🛑 Все попытки запуска не увенчались успехом.")
+    return None, None
+
+
+# Пробуем запустить браузер
+driver, dp = start_driver_with_retries()
+if not driver:
+    exit(1)
 wait = WebDriverWait(driver, 20)
 
 # Скрипты
