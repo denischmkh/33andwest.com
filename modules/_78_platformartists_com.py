@@ -1,7 +1,7 @@
 import time
 
 from django.utils import timezone
-from seleniumbase.common.exceptions import TimeoutException, NoSuchElementException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 
 from load_django import *
 from parser_app.models import Artist
