@@ -76,7 +76,6 @@ def parse5(driver: uc.Chrome):
     existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-    driver.quit()
     for name in current_names:
         artist, created = Artist.objects.get_or_create(
             artist_name=name,
