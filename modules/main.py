@@ -1,3 +1,5 @@
+import os
+
 import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
@@ -7,6 +9,8 @@ from _3_august_agency import parse3
 from _4_billions_com import parse4
 from _5_caa_com import parse5
 from pyvirtualdisplay import Display
+
+os.environ["DISPLAY"] = ":99"
 
 dp = Display()
 dp.start()
