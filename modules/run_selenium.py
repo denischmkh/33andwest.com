@@ -98,15 +98,22 @@ def kill_xvfb():
             stderr=subprocess.PIPE,
             text=True
         )
-        pids = result.stdout.strip().split("\n")
+        pids = [pid for pid in result.stdout.strip().split("\n") if pid.strip().isdigit()]
+
+        if not pids:
+            print("✅ Нет активных Xvfb-процессов")
+            return
+
         for pid in pids:
-            if pid.isdigit():
+            try:
                 os.kill(int(pid), signal.SIGKILL)
                 print(f"🔴 Убил Xvfb с PID: {pid}")
-        if not pids or pids == ['']:
-            print("✅ Нет активных Xvfb-процессов")
+            except ProcessLookupError:
+                print(f"⚠️ Процесс {pid} уже завершён")
+            except Exception as e:
+                print(f"⚠️ Ошибка при завершении PID {pid}: {e}")
     except Exception as e:
-        print(f"⚠️ Ошибка при завершении Xvfb: {e}")
+        print(f"⚠️ Ошибка при поиске Xvfb: {e}")
 
 
 def start_driver_with_retries():
