@@ -20,56 +20,57 @@ from parser_app.models import Artist
 
 today = timezone.now().date()
 
-options = uc.ChromeOptions()
-options.add_argument("--disable-gpu")
-options.add_argument("--disable-blink-features=AutomationControlled")
-options.add_argument("--disable-notifications")
-options.add_argument("--lang=en-US")
-options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+# options = uc.ChromeOptions()
+# options.add_argument("--disable-gpu")
+# options.add_argument("--disable-blink-features=AutomationControlled")
+# options.add_argument("--disable-notifications")
+# options.add_argument("--lang=en-US")
+# options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
+#
+# from config import VERSION_MAIN
+# driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
+def parse3(driver: uc.Chrome):
+    wait = WebDriverWait(driver, 20)
 
-from config import VERSION_MAIN
-driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
-wait = WebDriverWait(driver, 20)
+    driver.get(url)
+    time.sleep(5)
 
-driver.get(url)
-time.sleep(5)
+    # driver.execute_script()
+    current_names = set()
 
-# driver.execute_script()
-current_names = set()
+    def find_elemets_on_page(locator):
+        try:
+            return wait.until(EC.presence_of_all_elements_located((By.XPATH,f'{locator}')))
+        except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
+            raise Exception(f"Error find_elemets_on_page: {e} \n error in :{locator}")
 
-def find_elemets_on_page(locator):
-    try:
-        return wait.until(EC.presence_of_all_elements_located((By.XPATH,f'{locator}')))
-    except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
-        raise Exception(f"Error find_elemets_on_page: {e} \n error in :{locator}")
-
-# all_links = find_elemets_on_page('//div[@class="grid-title"]')
-
-
-all_links = find_elemets_on_page('//h3')
-count = len(all_links)
-
-for link in all_links:
-
-    link_text = link.text.strip()
-    current_names.add(link_text)
+    # all_links = find_elemets_on_page('//div[@class="grid-title"]')
 
 
-existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
-existing_names = set(existing_artists.values_list('artist_name', flat=True))
+    all_links = find_elemets_on_page('//h3')
+    count = len(all_links)
 
-for name in current_names:
-    artist, created = Artist.objects.get_or_create(
-        artist_name=name,
-        website_link = website_link,
-        defaults={
-            # 'website_link': website_link ,
-            'agency_name': 'august.agency',
-            'date_added': today
-        }
-    )
+    for link in all_links:
 
-missing_names = existing_names - current_names
-Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
+        link_text = link.text.strip()
+        current_names.add(link_text)
 
-print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
+
+    existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
+    existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+    for name in current_names:
+        artist, created = Artist.objects.get_or_create(
+            artist_name=name,
+            website_link = website_link,
+            defaults={
+                # 'website_link': website_link ,
+                'agency_name': 'august.agency',
+                'date_added': today
+            }
+        )
+
+    missing_names = existing_names - current_names
+    Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
+
+    print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
