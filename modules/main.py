@@ -4,6 +4,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import NoSuchElementException,NoSuchAttributeException, InvalidArgumentException,TimeoutException
 from _3_august_agency import parse3
+from _4_billions_com import parse4
+from _5_caa_com import parse5
 from pyvirtualdisplay import Display
 
 dp = Display()
@@ -22,10 +24,10 @@ driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
 wait = WebDriverWait(driver, 20)
 
 
-scripts = [parse3]
+scripts = [parse3, parse4, parse5]
 
 for script in scripts:
-    print('Функция начала отрабатывать')
+    print(f'Функция {script.__name__} начала отрабатывать')
     script(driver=driver)
     print('Функция отработала')
 
