@@ -16,10 +16,6 @@ try:
 except subprocess.CalledProcessError:
     print("✅ Нет активных Xvfb-дисплеев")
 
-# Также можно очистить переменную окружения DISPLAY (опционально)
-os.environ["DISPLAY"] = ":99"
-
-
 
 # Запускаем новый виртуальный дисплей
 dp = Display(visible=False, size=(1280, 720))
