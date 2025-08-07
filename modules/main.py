@@ -19,8 +19,15 @@ from _28_grandstandhq_com import parse28
 from _32_sacksco_com import parse32
 from _34_mbcpr_com import parse34
 from _36_braceyourselfpr_com import parse36
+from _39_redlightmanagement_com import parse39
+from _43_dynamictalent_com import parse43
+from _51_gersh_com import parse51
+from _53_thegreenroompr_com import parse53
+from _54_2911_us import parse54
 from config import VERSION_MAIN
 
+scripts = [parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
+           parse34, parse36, parse39, parse43, parse51, parse53, parse54]
 
 # Проверка на висячий дисплей
 def kill_xvfb():
@@ -62,8 +69,7 @@ driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
 wait = WebDriverWait(driver, 20)
 
 # Скрипты
-scripts = [parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
-           parse34, parse36]
+
 
 for script in scripts:
     print(f"🔄 Функция {script.__name__} начала отрабатывать")
