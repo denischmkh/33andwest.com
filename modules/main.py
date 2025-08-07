@@ -8,42 +8,21 @@ from _4_billions_com import parse4
 from _5_caa_com import parse5
 from config import VERSION_MAIN
 
-DISPLAY_NUM = ":99"
-LOCK_FILE = f"/tmp/.X{DISPLAY_NUM[1:]}-lock"
-
-# Установить переменную окружения для DISPLAY
-os.environ["DISPLAY"] = DISPLAY_NUM
-
 
 # Проверка на висячий дисплей
-def clean_display():
-    if os.path.exists(LOCK_FILE):
-        print(f"[!] Найден lock-файл дисплея {DISPLAY_NUM}: {LOCK_FILE}")
-        try:
-            # Найти PID Xvfb по lock-файлу
-            with open(LOCK_FILE, 'r') as f:
-                pid = int(f.read().strip())
-            print(f"[!] PID процесса Xvfb: {pid}")
+try:
+    subprocess.run(["pkill", "-f", "Xvfb"], check=True)
+    print("🔴 Старые Xvfb-дисплеи завершены")
+except subprocess.CalledProcessError:
+    print("✅ Нет активных Xvfb-дисплеев")
 
-            # Убить процесс
-            subprocess.run(["kill", "-9", str(pid)], check=True)
-            print("[+] Xvfb процесс завершён.")
-        except Exception as e:
-            print(f"[!] Не удалось завершить Xvfb: {e}")
-
-        # Удалить lock-файл
-        try:
-            os.remove(LOCK_FILE)
-            print("[+] Lock-файл удалён.")
-        except Exception as e:
-            print(f"[!] Не удалось удалить lock-файл: {e}")
+# Также можно очистить переменную окружения DISPLAY (опционально)
+os.environ["DISPLAY"] = ":99"
 
 
-# Очищаем старый дисплей, если он завис
-clean_display()
 
 # Запускаем новый виртуальный дисплей
-dp = Display(visible=0, size=(1280, 720), use_display=':99')
+dp = Display(visible=False, size=(1280, 720))
 dp.start()
 print("[+] Новый виртуальный дисплей запущен.")
 
