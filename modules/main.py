@@ -32,4 +32,5 @@ for script in scripts:
     print('Функция отработала')
 
 
+driver.quit()
 dp.stop()
