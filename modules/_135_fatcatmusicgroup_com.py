@@ -41,48 +41,50 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.fatcatmusicgroup.com/bookings"
+url = f"https://www.fatcatmusicgroup.com/management"
 website_link = 'https://www.fatcatmusicgroup.com'
 agency_name = 'fatcatmusicgroup.com'
 
-options = Options()
-# options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+# options = Options()
+# # options.add_argument("--headless")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# user_data_dir = tempfile.mkdtemp()
+# options.add_argument(f'--user-data-dir={user_data_dir}')
+# driver = webdriver.Chrome(options=options)
 
-user_data_dir = tempfile.mkdtemp()
-options.add_argument(f'--user-data-dir={user_data_dir}')
-driver = webdriver.Chrome(options=options)
+def parse135(driver):
+    driver.get(url)
+    time.sleep(2)
 
-driver.get(url)
-time.sleep(2)
+    current_names = set()
 
-current_names = set()
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
 
-html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
+    artists = soup.find_all("h3")
+    for art in artists:
+        text = art.text.strip()
+        #print(f"Name: {text}")
+        current_names.add(text)
 
-artists = soup.find_all("h3")
-for art in artists:
-    text = art.text.strip()
-    #print(f"Name: {text}")
-    current_names.add(text)
 
-existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-existing_names = set(existing_artists.values_list('artist_name', flat=True))
+    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+    existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-for name in current_names:
-    artist, created = Artist.objects.get_or_create(
-        artist_name=name,
-        website_link=website_link,
-        defaults={
-            'agency_name': 'fatcatmusicgroup',
-            'date_added': today
-        }
-    )
+    for name in current_names:
+        artist, created = Artist.objects.get_or_create(
+            artist_name=name,
+            website_link=website_link,
+            defaults={
+                'agency_name': 'fatcatmusicgroup',
+                'date_added': today
+            }
+        )
 
-missing_names = existing_names - current_names
-Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
+    missing_names = existing_names - current_names
+    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
-print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 

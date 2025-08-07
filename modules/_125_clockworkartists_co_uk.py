@@ -41,52 +41,48 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.sequelmusicgroup.com/full-roster"
-website_link = 'https://www.sequelmusicgroup.com'
-agency_name = 'sequelmusicgroup.com'
+url = f"https://www.clockworkartists.co.uk/"
+website_link = 'https://www.clockworkartists.co.uk'
+agency_name = 'clockworkartists.co.uk'
 
-options = Options()
-# options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+# options = Options()
+# # options.add_argument("--headless")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# user_data_dir = tempfile.mkdtemp()
+# options.add_argument(f'--user-data-dir={user_data_dir}')
+# driver = webdriver.Chrome(options=options)
+def parse125(driver):
+    driver.get(url)
+    time.sleep(2)
 
-user_data_dir = tempfile.mkdtemp()
-options.add_argument(f'--user-data-dir={user_data_dir}')
-driver = webdriver.Chrome(options=options)
+    current_names = set()
 
-driver.get(url)
-time.sleep(2)
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
 
-current_names = set()
+    artists = soup.find_all("h3")
+    for art in artists:
+        text = art.text.strip()
+        #print(f"Name: {text}")
+        current_names.add(text)
 
-driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-time.sleep(2)
+    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+    existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
+    for name in current_names:
+        artist, created = Artist.objects.get_or_create(
+            artist_name=name,
+            website_link=website_link,
+            defaults={
+                'agency_name': 'clockworkartists',
+                'date_added': today
+            }
+        )
 
-artists = soup.find_all("p",class_="preFlex flexIn")
-for art in artists:
-    text = art.text.strip()
-    #print(f"Name: {text}")
-    current_names.add(text)
+    missing_names = existing_names - current_names
+    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
-
-existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-existing_names = set(existing_artists.values_list('artist_name', flat=True))
-
-for name in current_names:
-    artist, created = Artist.objects.get_or_create(
-        artist_name=name,
-        website_link=website_link,
-        defaults={
-            'agency_name': 'sequelmusicgroup',
-            'date_added': today
-        }
-    )
-
-missing_names = existing_names - current_names
-Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
-
-print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 

@@ -54,6 +54,22 @@ from _115_curtisbrown_co_uk import parse115
 from _116_insanity_com import parse116
 from _117_analog_a_com import parse117
 from _121_goodmachinepr_com import parse121
+from _122_culturewave_la import parse122
+from _124_r_m_art import parse124
+from _125_clockworkartists_co_uk import parse125
+from _126_sequelmusicgroup_com import parse126
+from _127_intertalentgroup_com import parse127
+from _128_arcade_talent_com import parse128
+from _130_thebullittagency_com import parse130
+from _131_mushroombooking_com import parse131
+from _133_amodeagency_com import parse133
+from _134_fatcatmusicgroup_com import parse134
+from _135_fatcatmusicgroup_com import parse135
+from _136_t_s_agency_com import parse136
+from _137_kmgmt_com import parse137
+from _138_strangetalent_agency import parse138
+from _139_atcmanagement_com import parse139
+from _141_leadermgmt_com import parse141
 from config import VERSION_MAIN
 
 scripts = [
@@ -61,7 +77,8 @@ scripts = [
     parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67,
     parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89,
     parse94, parse104, parse105, parse109, parse110, parse111, parse112, parse113, parse114, parse115,
-    parse116, parse117, parse121
+    parse116, parse117, parse121, parse122, parse124, parse125, parse126, parse127, parse128, parse130,
+    parse131, parse133, parse134, parse135, parse136, parse137, parse138, parse139, parse141
 ]
 
 # Проверка на висячий дисплей
@@ -107,7 +124,7 @@ wait = WebDriverWait(driver, 20)
 
 
 for script in scripts:
-    print(f"🔄 Функция {script.__name__} начала отрабатывать")
+    print(f"🔄 Функция {script.__name__} {script.__file__} начала отрабатывать")
     script(driver=driver)
     print(f"✅ Функция {script.__name__} отработала")
 
