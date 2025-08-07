@@ -49,7 +49,7 @@ response = requests.get(url, headers=headers, cookies=cookies, allow_redirects=T
 if response.status_code == 200:
 
     soup = BeautifulSoup(response.text, "html.parser")
-    artists = soup.find("ul",id="artists_current").find_all("li")
+    artists = soup.find("ul", attrs={"id": "artists_current"}).find_all("li")
 
     for art in artists:
         text = art.text.strip()
