@@ -9,6 +9,9 @@ from _5_caa_com import parse5
 from _7_groundcontroltouring_com import parse7
 from _12_primarytalent_com import parse12
 from _16_teamwass_com import parse16
+from _17_unitedtalent_com import parse17
+from _19_xraytouring_com import parse19
+from _23_beacons_ai import parse23
 from config import VERSION_MAIN
 
 
@@ -39,7 +42,7 @@ driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
 wait = WebDriverWait(driver, 20)
 
 # Скрипты
-scripts = [parse3, parse4, parse5, parse7, parse12, parse16]
+scripts = [parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23]
 
 for script in scripts:
     print(f"🔄 Функция {script.__name__} начала отрабатывать")
