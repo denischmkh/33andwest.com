@@ -1,7 +1,9 @@
-url_1 = 'https://www.unitedtalent.com/talent/music'
-url_2 = 'https://www.unitedtalent.com/talent/comedy-touring'
 
-website_link = 'https://www.unitedtalent.com'
+url = 'https://grandstandhq.com/artists'
+website_link = 'https://grandstandhq.com'
+agency_name = 'grandstandhq'
+# url = 'https://www.stokedpr.com/category/music/'
+# website_link = 'https://www.stokedpr.com'
 
 import re
 import time
@@ -21,20 +23,22 @@ from parser_app.models import Artist
 today = timezone.now().date()
 
 # options = uc.ChromeOptions()
-# # options.add_argument("--headless=new")  # обязательно!
-# options.add_argument("--disable-gpu")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+# options.add_argument("--disable-gpu")   # для совместимости
 # options.add_argument("--disable-blink-features=AutomationControlled")
 # options.add_argument("--disable-notifications")
 # options.add_argument("--lang=en-US")
 # options.add_argument("--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
-#
+
 # from config import VERSION_MAIN
-# driver = uc.Chrome(options=options, version_main=VERSION_MAIN, use_subprocess=True)
-def parse17(driver):
+# driver = uc.Chrome(options=options, version_main=VERSION_MAIN)
+def parse28(driver):
     wait = WebDriverWait(driver, 20)
 
-    driver.get(url_1)
+    driver.get(url)
     time.sleep(5)
+
     current_names = set()
 
     def find_elemets_on_page(locator):
@@ -43,17 +47,10 @@ def parse17(driver):
         except (NoSuchElementException,TypeError, TimeoutException, AttributeError) as e:
             raise Exception(f"Error find_elemets_on_page: {e} \n error in :{locator}")
 
-    all_links = find_elemets_on_page('//div[@class="text-mobileParagraphLargeBold md:text-paragraphLargeBold py-2 md:py-1"]')
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    time.sleep(2)
 
-    for link in all_links:
-        link_text = link.text.strip()
-        current_names.add(link_text)
-
-    driver.get(url_2)
-    time.sleep(5)
-
-
-    all_links = find_elemets_on_page('//div[@class="text-mobileParagraphLargeBold md:text-paragraphLargeBold py-2 md:py-1"]')
+    all_links = driver.find_elements(By.XPATH, '//h3')
 
     for link in all_links:
         link_text = link.text.strip()
@@ -68,13 +65,12 @@ def parse17(driver):
             website_link = website_link,
             defaults={
                 # 'website_link': website_link ,
-                'agency_name': 'unitedtalent',
+                'agency_name': agency_name,
                 'date_added': today
             }
         )
 
-
     missing_names = existing_names - current_names
-    Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
+    Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
