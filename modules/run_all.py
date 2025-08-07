@@ -13,7 +13,7 @@ from parser_app.models import Status
 scripts = [
     "1_33andwest.com.py",
     "2_atc-live.com.py",
-    "_3_august_agency.py",
+    "3_august.agency.py",
     "4_billions.com.py",
     "5_caa.com.py",
     "6_chameleon.unitedtalent.com.py",
