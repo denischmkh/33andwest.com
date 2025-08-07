@@ -13,9 +13,9 @@ from parser_app.models import Status
 scripts = [
     "1_33andwest.com.py",
     "2_atc-live.com.py",
-    "_3_august_agency.py",
-    "_4_billions_com.py",
-    "_5_caa_com.py",
+    "3_august.agency.py",
+    "4_billions.com.py",
+    "5_caa.com.py",
     "6_chameleon.unitedtalent.com.py",
     "7_groundcontroltouring.com.py",
     "8_highroadtouring.com.py",
