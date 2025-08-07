@@ -47,7 +47,7 @@ current_names = set()
 response = requests.get(url, headers=headers, cookies=cookies, allow_redirects=True)
 
 if response.status_code == 200:
-
+    print(response.text)
     soup = BeautifulSoup(response.text, "html.parser")
     artists = soup.find("ul", attrs={"id": "artists_current"}).find_all("li")
 
