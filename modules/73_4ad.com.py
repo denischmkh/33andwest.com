@@ -44,7 +44,7 @@ agency_name = '4ad.com'
 
 current_names = set()
 
-response = requests.get(url, headers=headers, cookies=cookies)
+response = requests.get(url, headers=headers, cookies=cookies, allow_redirects=True)
 
 if response.status_code == 200:
 
