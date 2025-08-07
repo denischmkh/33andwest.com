@@ -1,4 +1,6 @@
+import datetime
 import os
+import re
 import subprocess
 import signal
 from pyvirtualdisplay import Display
@@ -71,6 +73,7 @@ from _138_strangetalent_agency import parse138
 from _139_atcmanagement_com import parse139
 from _141_leadermgmt_com import parse141
 from config import VERSION_MAIN
+from parser_app.models import Status
 
 scripts = [
     parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
@@ -122,11 +125,34 @@ wait = WebDriverWait(driver, 20)
 
 # Скрипты
 
+def extract_domain(module_name: str) -> str:
+    name = re.sub(r"^_\d+_", "", module_name)
+    domain = name.replace("_", ".")
+    return domain
 
 for script in scripts:
-    print(f"🔄 Функция {script.__name__} {script.__module__} начала отрабатывать")
-    script(driver=driver)
-    print(f"✅ Функция {script.__name__} отработала")
+    print(f"Function {script.__name__} {script.__module__} has started")
+    site_name = extract_domain(script.__module__)
+    try:
+        script(driver=driver)
+        Status.objects.update_or_create(
+            site=site_name,
+            defaults={
+                'status': 'OK',
+                'date': datetime.date.today()
+            }
+        )
+        print(f"Function {script.__name__} has been ended")
+    except Exception as e:
+        Status.objects.update_or_create(
+            site=site_name,
+            defaults={
+                'status': 'Error',
+                'date': datetime.date.today()
+            }
+        )
+        print(f"Function {script.__name__} had errors: {e}")
+
 
 # Завершение работы
 driver.quit()
