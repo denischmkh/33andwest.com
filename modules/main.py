@@ -41,12 +41,27 @@ from _85_liaisonartists_com import parse85
 from _86_selectmusic_com import parse86
 from _87_radiusartists_com import parse87
 from _89_relianttalent_com import parse89
+from _94_insideout_agency import parse94
+from _104_lb_agency_net import parse104
+from _105_tap_music_com import parse105
+from _109_corsonagency_com import parse109
+from _110_paramountartists_com import parse110
+from _111_mickmgmt_com import parse111
+from _112_pure_represents_com import parse112
+from _113_ivpr_com import parse113
+from _114_unitedagents_co_uk import parse114
+from _115_curtisbrown_co_uk import parse115
+from _116_insanity_com import parse116
+from _117_analog_a_com import parse117
+from _121_goodmachinepr_com import parse121
 from config import VERSION_MAIN
 
 scripts = [
     parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
     parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67,
-    parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89
+    parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89,
+    parse94, parse104, parse105, parse109, parse110, parse111, parse112, parse113, parse114, parse115,
+    parse116, parse117, parse121
 ]
 
 # Проверка на висячий дисплей
