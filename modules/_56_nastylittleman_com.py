@@ -1,4 +1,3 @@
-import json
 import tempfile
 
 from django.utils import timezone
@@ -42,45 +41,35 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.highrisepr.com/"
-website_link = 'https://www.highrisepr.com'
-agency_name = 'highrisepr.com'
+url = f"https://www.nastylittleman.com/artists/"
+website_link = 'https://www.nastylittleman.com'
+agency_name = 'nastylittleman.com'
 
-options = Options()
-# options.add_argument("--headless")
-options.add_argument("--no-sandbox")
-options.add_argument("--disable-dev-shm-usage")
+# options = Options()
+# # options.add_argument("--headless")
+# options.add_argument("--no-sandbox")
+# options.add_argument("--disable-dev-shm-usage")
+#
+# user_data_dir = tempfile.mkdtemp()
+# options.add_argument(f'--user-data-dir={user_data_dir}')
+# driver = webdriver.Chrome(options=options)
 
-user_data_dir = tempfile.mkdtemp()
-options.add_argument(f'--user-data-dir={user_data_dir}')
-driver = webdriver.Chrome(options=options)
+def parse56(driver):
+    driver.get(url)
+    time.sleep(2)
 
-driver.get(url)
-time.sleep(2)
+    current_names = set()
 
-current_names = set()
+    html = driver.page_source
+    soup = BeautifulSoup(html, "html.parser")
 
-html = driver.page_source
-soup = BeautifulSoup(html, "html.parser")
-driver.close()
-
-script_tag = soup.find("script", {"type": "application/json", "id": "wix-warmup-data"})
-if script_tag:
-
-    json_data = json.loads(script_tag.string)
-    stack = [json_data]
-    while stack:
-        current = stack.pop()
-        if isinstance(current, dict):
-            for k, v in current.items():
-                if k == "artistName":
-                    if isinstance(v, str):
-                        current_names.add(v)
-                elif isinstance(v, (dict, list)):
-                    stack.append(v)
-        elif isinstance(current, list):
-            stack.extend(current)
-
+    artists = soup.find("p",id="top")
+    full_text = artists.get_text()
+    raw_names = full_text.splitlines()
+    for name in raw_names:
+        clean_name = name.strip()
+        #print(f"Name: {clean_name}")
+        current_names.add(clean_name)
 
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
@@ -90,7 +79,7 @@ if script_tag:
             artist_name=name,
             website_link=website_link,
             defaults={
-                'agency_name': 'highrisepr',
+                'agency_name': 'nastylittleman',
                 'date_added': today
             }
         )
@@ -98,9 +87,5 @@ if script_tag:
     missing_names = existing_names - current_names
     Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
-    print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
 
-else:
-    raise Exception(f'Json not found')
-
-driver.quit()
