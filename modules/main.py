@@ -16,12 +16,25 @@ from config import VERSION_MAIN
 
 
 # Проверка на висячий дисплей
-try:
-    subprocess.run(["pkill", "-f", "Xvfb"], check=True)
-    print("🔴 Старые Xvfb-дисплеи завершены")
-except subprocess.CalledProcessError:
-    print("✅ Нет активных Xvfb-дисплеев")
+def kill_xvfb():
+    try:
+        result = subprocess.run(
+            ["pgrep", "-f", "Xvfb"],
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True
+        )
+        pids = result.stdout.strip().split("\n")
+        for pid in pids:
+            if pid.isdigit():
+                os.kill(int(pid), signal.SIGKILL)
+                print(f"🔴 Убил Xvfb с PID: {pid}")
+        if not pids or pids == ['']:
+            print("✅ Нет активных Xvfb-процессов")
+    except Exception as e:
+        print(f"⚠️ Ошибка при завершении Xvfb: {e}")
 
+kill_xvfb()
 
 # Запускаем новый виртуальный дисплей
 dp = Display(visible=False, size=(1280, 720))
