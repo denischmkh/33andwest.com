@@ -16,8 +16,6 @@ website_link = 'https://www.rocnation.com'
 agency_name = 'rocnation'
 
 headers = {
-    "Accept": "*/*",
-    "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "uk-UA,uk;q=0.9,en-GB;q=0.8,en;q=0.7,en-US;q=0.6",
     "Cache-Control": "no-cache",
     "Content-Type": "application/x-www-form-urlencoded",
