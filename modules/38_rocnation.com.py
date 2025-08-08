@@ -31,7 +31,7 @@ headers = {
     "Sec-Fetch-Site": "same-origin",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 }
-lst = ["athlete","artist", 'sports']
+lst = ["athlete","artist"]
 current_names = set()
 
 for typr_person in lst:
@@ -51,7 +51,6 @@ for typr_person in lst:
     # print("Response Headers:\n", response.headers)
     # print("Response Body:\n", response.text)
 
-    print(response.text)
     soup = BeautifulSoup(response.text, 'html.parser')
     # //h3[@class="teaser__heading tick"]
     artists = soup.find_all('h3',class_="teaser__heading tick" )
