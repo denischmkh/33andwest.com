@@ -53,7 +53,7 @@ for typr_person in lst:
     # print("Response Headers:\n", response.headers)
     # print("Response Body:\n", response.text)
 
-
+    print(response.text)
     soup = BeautifulSoup(response.text, 'html.parser')
     # //h3[@class="teaser__heading tick"]
     artists = soup.find_all('h3',class_="teaser__heading tick" )
@@ -65,7 +65,6 @@ for typr_person in lst:
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
-print(current_names)
 
 for name in current_names:
     artist, created = Artist.objects.get_or_create(
