@@ -16,6 +16,8 @@ website_link = 'https://www.rocnation.com'
 agency_name = 'rocnation'
 
 headers = {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br, zstd",
     "Accept-Language": "uk-UA,uk;q=0.9,en-GB;q=0.8,en;q=0.7,en-US;q=0.6",
     "Cache-Control": "no-cache",
     "Content-Type": "application/x-www-form-urlencoded",
@@ -51,6 +53,7 @@ for typr_person in lst:
     # print("Response Headers:\n", response.headers)
     # print("Response Body:\n", response.text)
 
+    print(response.text)
     soup = BeautifulSoup(response.text, 'html.parser')
     # //h3[@class="teaser__heading tick"]
     artists = soup.find_all('h3',class_="teaser__heading tick" )
