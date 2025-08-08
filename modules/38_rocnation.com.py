@@ -33,7 +33,7 @@ headers = {
     "Sec-Fetch-Site": "same-origin",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/138.0.0.0 Safari/537.36"
 }
-lst = ["athlete","artist"]
+lst = ["athlete","artist", 'sports']
 current_names = set()
 
 for typr_person in lst:
@@ -64,6 +64,8 @@ for typr_person in lst:
 
 existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
 existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+print(existing_names)
 
 for name in current_names:
     artist, created = Artist.objects.get_or_create(
