@@ -59,3 +59,4 @@ def parse43(driver):
         current_names.add(link_text)
 
     save_in(current_names,website_link,'dynamictalent')
+    return len(current_names)

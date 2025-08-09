@@ -20,6 +20,7 @@ class Artist(models.Model):
 class Status(models.Model):
     site = models.CharField(max_length=255, null=False)
     date = models.DateField(default=datetime.date.today)
+    artists_found = models.IntegerField(null=True)
     status = models.CharField(max_length=255, null=False)
 
     class Meta:

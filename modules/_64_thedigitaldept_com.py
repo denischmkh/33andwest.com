@@ -26,6 +26,7 @@ def sync_artists_to_db(current_names):
     Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
     print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    return len(current_names)
 
 today = timezone.now().date()
 
