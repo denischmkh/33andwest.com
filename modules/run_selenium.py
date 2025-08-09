@@ -8,25 +8,25 @@ import time
 from pyvirtualdisplay import Display
 import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
-# from _3_august_agency import parse3
-# from _4_billions_com import parse4
-# from _5_caa_com import parse5
-# from _7_groundcontroltouring_com import parse7
-# from _12_primarytalent_com import parse12
-# from _16_teamwass_com import parse16
-# from _17_unitedtalent_com import parse17
-# from _19_xraytouring_com import parse19
-# from _23_beacons_ai import parse23
-# from _24_loaded_gg import parse24
-# from _25_stokedpr_com import parse25
-# from _28_grandstandhq_com import parse28
-# from _32_sacksco_com import parse32
-# from _34_mbcpr_com import parse34
-# from _36_braceyourselfpr_com import parse36
-# from _39_redlightmanagement_com import parse39
-# from _43_dynamictalent_com import parse43
-# from _51_gersh_com import parse51
-# from _53_thegreenroompr_com import parse53
+from _3_august_agency import parse3
+from _4_billions_com import parse4
+from _5_caa_com import parse5
+from _7_groundcontroltouring_com import parse7
+from _12_primarytalent_com import parse12
+from _16_teamwass_com import parse16
+from _17_unitedtalent_com import parse17
+from _19_xraytouring_com import parse19
+from _23_beacons_ai import parse23
+from _24_loaded_gg import parse24
+from _25_stokedpr_com import parse25
+from _28_grandstandhq_com import parse28
+from _32_sacksco_com import parse32
+from _34_mbcpr_com import parse34
+from _36_braceyourselfpr_com import parse36
+from _39_redlightmanagement_com import parse39
+from _43_dynamictalent_com import parse43
+from _51_gersh_com import parse51
+from _53_thegreenroompr_com import parse53
 from _54_2911_us import parse54
 from _56_nastylittleman_com import parse56
 from _62_highrisepr_com import parse62
@@ -78,9 +78,8 @@ from config import VERSION_MAIN
 from parser_app.models import Status
 
 scripts = [
-    # parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
-    # parse34, parse36, parse39, parse43, parse51, parse53,
-    parse54, parse56, parse62, parse64, parse65, parse67,
+    parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
+    parse34, parse36, parse39, parse43, parse51, parse53, parse54, parse56, parse62, parse64, parse65, parse67,
     parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89,
     parse94, parse104, parse105, parse109, parse110, parse111, parse112, parse113, parse114, parse115,
     parse116, parse117, parse121, parse122, parse124, parse125, parse126, parse127, parse128, parse130,
