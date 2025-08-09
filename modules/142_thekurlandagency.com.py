@@ -46,8 +46,6 @@ current_names = set()
 
 response = requests.get(url, headers=headers, cookies=cookies)
 
-print(response.text)
-
 if response.status_code == 200:
 
     soup = BeautifulSoup(response.text, "html.parser")
@@ -75,6 +73,7 @@ if response.status_code == 200:
     Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
     print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(current_names)
 
 else:
     raise Exception(f'Response error: {response.status_code} - {response.reason}')
