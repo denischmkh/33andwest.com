@@ -55,7 +55,7 @@ agency_name = '2911.us'
 # driver = webdriver.Chrome(options=options)
 def parse54(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

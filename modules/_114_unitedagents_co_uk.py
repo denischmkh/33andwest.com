@@ -1,7 +1,9 @@
 import tempfile
 
+import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
+from selenium.common import TimeoutException
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -44,7 +46,7 @@ cookies = {
     "_ga_D2BLTJ927S": "GS2.1.s1752041974$o1$g1$t1752042113$j57$l0$h0"
 }
 
-url = f"https://www.unitedagents.co.uk/clients/actors?"
+url = f"https://www.unitedagents.co.uk/clients/actors?#acting"
 website_link = 'https://www.unitedagents.co.uk'
 agency_name = 'unitedagents.co.uk'
 
@@ -60,11 +62,13 @@ agency_name = 'unitedagents.co.uk'
 def parse114(driver):
     driver.get(url)
     time.sleep(3)
-
-    cookie_accept_button = WebDriverWait(driver, 15).until(
-                EC.element_to_be_clickable((By.ID, "cookiescript_accept"))
-            )
-    cookie_accept_button.click()
+    try:
+        cookie_accept_button = WebDriverWait(driver, 15).until(
+                    EC.element_to_be_clickable((By.ID, "cookiescript_accept"))
+                )
+        cookie_accept_button.click()
+    except TimeoutException:
+        pass
     time.sleep(2.5)
 
     current_names = set()
@@ -72,18 +76,21 @@ def parse114(driver):
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
 
-        artists = soup.find_all("h2")
+        artists = soup.find_all("div", class_='client-name')
         for art in artists:
             text = art.text.strip()
             if text:
                 #print(f"Name: {text}")
                 current_names.add(text)
+        try:
+            next_page_button = WebDriverWait(driver, 10).until(
+                EC.element_to_be_clickable((By.XPATH, '//li[@class="next last"]/a[@class="jquery-once-1-processed"]'))
+            )
+            next_page_button.click()
+            time.sleep(2.5)
+        except TimeoutException:
+            break
 
-        next_page_button = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.XPATH, '//button[@class="bubble-element Icon baTaWcj"]'))
-        )
-        next_page_button.click()
-        time.sleep(2.5)
 
 
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
