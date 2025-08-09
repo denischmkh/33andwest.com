@@ -1,5 +1,6 @@
 import tempfile
 
+import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -87,3 +88,5 @@ def parse54(driver):
     print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
     return len(current_names)
 
+driver = undetected_chromedriver.Chrome()
+print(parse54(driver))
