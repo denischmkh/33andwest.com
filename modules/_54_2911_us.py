@@ -1,6 +1,5 @@
 import tempfile
 
-import requests
 import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
@@ -13,6 +12,8 @@ from parser_app.models import Artist
 today = timezone.now().date()
 
 headers = {
+    "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+    "accept-encoding": "gzip, deflate, br, zstd",
     "accept-language": "ru,en-US;q=0.9,en;q=0.8,ja;q=0.7",
     "cache-control": "no-cache",
     "pragma": "no-cache",
@@ -54,14 +55,12 @@ agency_name = '2911.us'
 # options.add_argument(f'--user-data-dir={user_data_dir}')
 # driver = webdriver.Chrome(options=options)
 def parse54(driver):
-    # driver.get(url)
-    # time.sleep(10)
-    #
-    # current_names = set()
+    driver.get(url)
+    time.sleep(10)
 
-    # html = driver.page_source
-    response = requests.get(url, headers=headers, cookies=cookies)
-    html = response.text
+    current_names = set()
+
+    html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
     print(html)
 
