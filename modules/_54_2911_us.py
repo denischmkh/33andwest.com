@@ -86,7 +86,6 @@ def parse54(driver):
     Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
     print(f" Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
+    print(len(current_names))
     return len(current_names)
 
-driver = undetected_chromedriver.Chrome()
-print(parse54(driver))
