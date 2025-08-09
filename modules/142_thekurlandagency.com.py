@@ -46,6 +46,8 @@ current_names = set()
 
 response = requests.get(url, headers=headers, cookies=cookies)
 
+print(response.text)
+
 if response.status_code == 200:
 
     soup = BeautifulSoup(response.text, "html.parser")
