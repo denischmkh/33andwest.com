@@ -63,7 +63,6 @@ def parse54(driver):
     current_names = set()
 
     html = driver.page_source
-    print(html)
     soup = BeautifulSoup(html, "html.parser")
 
     artists = soup.find_all("h2")
