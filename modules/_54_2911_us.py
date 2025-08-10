@@ -95,6 +95,6 @@ def parse54(driver):
 if __name__ == '__main__':
     options = ChromeOptions()
     options.add_argument('--headless')
-    driver = undetected_chromedriver.Chrome(options=options)
+    driver = undetected_chromedriver.Chrome(options=options, version_main=138)
     parse54(driver)
     driver.close()
