@@ -6,6 +6,8 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 import time
 from bs4 import BeautifulSoup
+from undetected_chromedriver import ChromeOptions
+
 from load_django import *
 from parser_app.models import Artist
 
@@ -61,8 +63,8 @@ def parse54(driver):
     current_names = set()
 
     html = driver.page_source
-    soup = BeautifulSoup(html, "html.parser")
     print(html)
+    soup = BeautifulSoup(html, "html.parser")
 
     artists = soup.find_all("h2")
     for art in artists:
@@ -90,3 +92,9 @@ def parse54(driver):
     return len(current_names)
 
 
+if __name__ == '__main__':
+    options = ChromeOptions()
+    options.add_argument('--headless')
+    driver = undetected_chromedriver.Chrome(options=options)
+    parse54(driver)
+    driver.close()
