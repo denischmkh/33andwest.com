@@ -16,7 +16,7 @@ def get_agency_name(url: str):
     return split_url
 
 def save_in(current_names,website_link,agency_name):
-    existing_artists = Artist.objects.filter(website_link = website_link).order_by('id')
+    existing_artists = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
     for name in current_names:
