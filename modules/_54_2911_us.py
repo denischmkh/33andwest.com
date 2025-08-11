@@ -90,4 +90,4 @@ def parse54():
 
 
 if __name__ == '__main__':
-    parse54()
+    print(parse54())
