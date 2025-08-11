@@ -27,12 +27,11 @@ current_names = set()
 # driver = webdriver.Chrome(options=chrome_options)
 def parse115(driver):
     driver.get(url)
-    time.sleep(6)
+    time.sleep(15)
 
 
     for i in range(50):
         html = driver.page_source
-        print(html[:1000])
         soup = BeautifulSoup(html, "html.parser")
         #print(soup)
         artists = soup.find_all("a", class_="flex-item flex-sixths ng-scope")
