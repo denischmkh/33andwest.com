@@ -61,10 +61,9 @@ def parse70(driver):
         except WebDriverException as e:
             print(f"❌ Ошибка при поиске артистов: {e}")
 
-        # Отправка в БД (в отдельном потоке)
-        thread = threading.Thread(target=sync_artists_to_db, args=(current_names,))
-        thread.start()
-        thread.join()
+        # Синхронизация с БД и возврат результата
+        result = sync_artists_to_db(current_names)
+        return result
 
     except Exception as e:
-        print(f"⚠️ Общая ошибка: {e}")
+        raise Exception(f"⚠️ Общая ошибка: {e}")

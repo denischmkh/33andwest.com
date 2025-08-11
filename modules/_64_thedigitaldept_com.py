@@ -60,7 +60,6 @@ def parse64(driver):
         text = art.text.strip()
         current_names.add(text)
 
-    # Отдельный поток для sync_artists_to_db
-    thread = threading.Thread(target=sync_artists_to_db, args=(current_names,))
-    thread.start()
-    thread.join()
+    # Вызываем синхронизацию напрямую и возвращаем результат
+    result = sync_artists_to_db(current_names)
+    return result

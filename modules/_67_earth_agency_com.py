@@ -27,6 +27,7 @@ def sync_artists_to_db(current_names):
     print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
     return (len(current_names), len(current_names - existing_names), len(missing_names))
 
+
 today = timezone.now().date()
 
 url = f"https://earth-agency.com/artists/?initial="
@@ -54,11 +55,9 @@ def parse67(driver):
         for art in articles:
             text = art.text.strip()
             current_names.add(text)
-
     except Exception as e:
         print(f"❌ Ошибка при парсинге элементов: {e}")
 
-    # Асинхронная отправка в БД
-    thread = threading.Thread(target=sync_artists_to_db, args=(current_names,))
-    thread.start()
-    thread.join()
+    # Синхронизация и возврат результата
+    result = sync_artists_to_db(current_names)
+    return result
