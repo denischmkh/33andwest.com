@@ -1,5 +1,6 @@
 import tempfile
 
+import requests
 import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
@@ -56,14 +57,10 @@ agency_name = '2911.us'
 # user_data_dir = tempfile.mkdtemp()
 # options.add_argument(f'--user-data-dir={user_data_dir}')
 # driver = webdriver.Chrome(options=options)
-def parse54(driver):
-    driver.get(url)
-    time.sleep(10)
-
+def parse54():
     current_names = set()
-
-    html = driver.page_source
-    print(html[:2000])
+    response = requests.get(url=url, headers=headers, cookies=cookies)
+    html = response.text
     soup = BeautifulSoup(html, "html.parser")
 
     artists = soup.find_all("h2")
@@ -93,8 +90,4 @@ def parse54(driver):
 
 
 if __name__ == '__main__':
-    options = ChromeOptions()
-    options.add_argument('--headless')
-    driver = undetected_chromedriver.Chrome(options=options, version_main=138)
-    parse54(driver)
-    driver.close()
+    parse54()

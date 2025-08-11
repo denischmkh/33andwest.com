@@ -39,6 +39,7 @@ from _46_continentaltouring_us import parse46
 from _47_freetradeagency_co_uk import parse47
 from _48_girlieaction_com import parse48
 from _49_publiccitypr_com import parse49
+from _54_2911_us import parse54
 from _55_wecarealotpr_com import parse55
 from _60_ebmediapr_com import parse60
 from _61_7smgmt_com import parse61
@@ -108,6 +109,7 @@ scripts = [
     parse47,
     parse48,
     parse49,
+    parse54,
     parse55,
     parse60,
     parse61,
