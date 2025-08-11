@@ -66,7 +66,7 @@ class ArtistAdmin(admin.ModelAdmin):
 admin.site.register(Artist, ArtistAdmin)
 
 class StatusAdmin(admin.ModelAdmin):
-    list_display = ['site', 'date', 'artists_found', 'status']
+    list_display = ['site', 'date', 'status']
     ordering = ['site']
 
 admin.site.register(Status, StatusAdmin)

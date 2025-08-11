@@ -175,12 +175,14 @@ for script in scripts:
     print(f"Function {script.__name__} {script.__module__} has started")
     site_name = extract_domain(script.__module__)
     try:
-        artists_found = script(driver=driver)
+        artists_found, new, deleted = script(driver=driver)
         Status.objects.update_or_create(
             site=site_name,
             defaults={
                 'status': 'OK',
-                "artists_found": artists_found,
+                "scraped": artists_found,
+                "new": new,
+                'deleted': deleted,
                 'date': datetime.date.today()
             }
         )

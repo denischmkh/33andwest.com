@@ -70,4 +70,4 @@ def parse34(driver):
     Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
 
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
-    return len(current_names)
+    return (len(current_names), len(current_names - existing_names), len(missing_names))
