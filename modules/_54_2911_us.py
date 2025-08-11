@@ -61,6 +61,7 @@ def parse54():
     current_names = set()
     response = requests.get(url=url, headers=headers, cookies=cookies)
     html = response.text
+    print(html)
     soup = BeautifulSoup(html, "html.parser")
 
     artists = soup.find_all("h2")
