@@ -48,7 +48,7 @@ def parse95():
     response = requests.get(url, headers=headers, cookies=cookies)
 
     if response.status_code == 200:
-
+        print(response.text)
         soup = BeautifulSoup(response.text, "html.parser")
         artists = soup.find_all("p",class_="text_body_lg")
 
@@ -77,3 +77,6 @@ def parse95():
 
     else:
         raise Exception(f'Response error: {response.status_code} - {response.reason}')
+
+if __name__ == '__main__':
+    print(parse95())
