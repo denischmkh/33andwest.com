@@ -32,6 +32,7 @@ def parse115(driver):
 
     for i in range(50):
         html = driver.page_source
+        print(html[:1000])
         soup = BeautifulSoup(html, "html.parser")
         #print(soup)
         artists = soup.find_all("a", class_="flex-item flex-sixths ng-scope")
