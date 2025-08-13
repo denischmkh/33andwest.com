@@ -140,7 +140,7 @@ def start_driver_with_retries():
             options.add_argument(
                 "--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/117.0.0.0 Safari/537.36")
 
-            driver = uc.Chrome(options=options)
+            driver = uc.Chrome(options=options, version_main=139)
             wait = WebDriverWait(driver, 20)
 
             print("✅ Браузер успешно запущен.")
