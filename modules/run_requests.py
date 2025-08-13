@@ -78,14 +78,9 @@ from _140_panacherock_com import parse140
 from _142_thekurlandagency_com import parse142
 
 scripts = [
-    parse1,
-    parse2,
-    parse6,
-    parse8,
-    parse9,
-    parse10,
-    parse11,
-    parse13,
+    parse1, parse2, parse6, parse8,
+    parse9, parse10,
+    parse11, parse13,
     parse14,
     parse15,
     parse18,
