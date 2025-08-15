@@ -1,3 +1,4 @@
+import undetected_chromedriver
 
 url = 'https://www.caa.com/entertainmenttalent/touring/search#all'
 website_link = 'https://www.caa.com'
@@ -65,7 +66,7 @@ def parse5(driver: uc.Chrome):
 
         prev_count = count
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        time.sleep(7)
+        time.sleep(30)
 
     for link in all_links:
 
@@ -75,6 +76,8 @@ def parse5(driver: uc.Chrome):
 
     existing_artists = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+    print(current_names)
 
     for name in current_names:
         artist, created = Artist.objects.get_or_create(
@@ -92,3 +95,4 @@ def parse5(driver: uc.Chrome):
 
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
     return (len(current_names), len(current_names - existing_names), len(missing_names))
+
