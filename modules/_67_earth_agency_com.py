@@ -1,3 +1,4 @@
+
 import time
 
 from django.utils import timezone
@@ -70,4 +71,8 @@ def parse67():
         artists = soup.find_all(name='li', class_='tile-shape-square')
         for artist in artists:
             current_names.add(artist.text.strip())
-    sync_artists_to_db(current_names=current_names)
+    res = sync_artists_to_db(current_names=current_names)
+    return res
+
+if __name__ == '__main__':
+    parse67()
