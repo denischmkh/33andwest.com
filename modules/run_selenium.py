@@ -32,7 +32,6 @@ from _56_nastylittleman_com import parse56
 from _62_highrisepr_com import parse62
 from _64_thedigitaldept_com import parse64
 from _65_indegoot_com import parse65
-from _67_earth_agency_com import parse67
 from _69_newfrontiertouring_com import parse69
 from _70_paquinentertainment_com import parse70
 from _71_reybee_com import parse71
@@ -79,7 +78,7 @@ from parser_app.models import Status
 
 scripts = [
     parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
-    parse34, parse36, parse39, parse43, parse51, parse53, parse56, parse62, parse64, parse65, parse67,
+    parse34, parse36, parse39, parse43, parse51, parse53, parse56, parse62, parse64, parse65,
     parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89,
     parse94, parse104, parse105, parse109, parse110, parse111, parse112, parse113, parse114, parse115,
     parse116, parse117, parse121, parse122, parse124, parse125, parse126, parse127, parse128, parse130,

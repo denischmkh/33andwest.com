@@ -45,6 +45,7 @@ from _60_ebmediapr_com import parse60
 from _61_7smgmt_com import parse61
 from _63_qprime_com import parse63
 from _66_imran_malik_com import parse66
+from _67_earth_agency_com import parse67
 from _68_ayita_com import parse68
 from _72_sheltermusic_com import parse72
 from _73_4ad_com import parse73
@@ -110,6 +111,7 @@ scripts = [
     parse61,
     parse63,
     parse66,
+    parse67,
     parse68,
     parse72,
     parse73,
@@ -144,42 +146,6 @@ scripts = [
 ]
 
 
-# for script in scripts:
-#     full_path = os.path.join(os.path.dirname(__file__), script)
-#     print(f"\n🚀 Running {script}...\n")
-#     site_name = script.replace('.py', '')
-#     site_name = ''.join(site_name.split('_')[1:])
-#     try:
-#         result = subprocess.run(["python3", full_path], check=True, capture_output=True, text=True)
-#         print(result.stdout)
-#         Status.objects.update_or_create(
-#             site=site_name,
-#             defaults={
-#                 'status': 'OK',
-#                 'date': datetime.date.today()
-#             }
-#         )
-#     except subprocess.CalledProcessError as e:
-#         print(f"❌ Error running {script}:")
-#         print("stdout:\n", e.stdout)
-#         print("stderr:\n", e.stderr)
-#         Status.objects.update_or_create(
-#             site=site_name,
-#             defaults={
-#                 'status': 'Error',
-#                 'date': datetime.date.today()
-#             }
-#         )
-#     except Exception as e:
-#         print(f"❌ Unexpected error in {script}: {e}")
-#         Status.objects.update_or_create(
-#             site=site_name,
-#             defaults={
-#                 'status': 'Error',
-#                 'date': datetime.date.today()
-#             }
-#         )
-#     time.sleep(1)
 
 def extract_domain(module_name: str) -> str:
     name = re.sub(r"^_\d+_", "", module_name)

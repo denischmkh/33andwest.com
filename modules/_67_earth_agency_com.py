@@ -1,8 +1,8 @@
 import time
-import threading
+
 from django.utils import timezone
-from playwright.sync_api import sync_playwright, Error
-from selenium.webdriver.common.by import By
+import requests
+from bs4 import BeautifulSoup as BS
 
 from load_django import *
 from parser_app.models import Artist
@@ -30,34 +30,44 @@ def sync_artists_to_db(current_names):
 
 today = timezone.now().date()
 
-url = f"https://earth-agency.com/artists/?initial="
 website_link = 'https://earth-agency.com'
 agency_name = 'earth-agency.com'
 
 current_names = set()
 
-def parse67(driver):
-    driver.get(url)
-    time.sleep(3)
+url = "https://earth-agency.com/wp/wp-admin/admin-ajax.php"
 
-    previous_height = 0
-    while True:
-        driver.execute_script("window.scrollBy(0, 1500);")
-        time.sleep(3)
-        current_height = driver.execute_script("return document.body.scrollHeight;")
+headers = {
+    "accept-language": "ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7",
+    "connection": "keep-alive",
+    "content-type": "application/x-www-form-urlencoded; charset=UTF-8",
+    "origin": "https://earth-agency.com",
+    "referer": "https://earth-agency.com/artists/",
+    "sec-ch-ua": '"Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"',
+    "sec-ch-ua-mobile": "?0",
+    "sec-ch-ua-platform": '"Windows"',
+    "sec-fetch-dest": "empty",
+    "sec-fetch-mode": "cors",
+    "sec-fetch-site": "same-origin",
+    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36",
+    "x-requested-with": "XMLHttpRequest"
+}
 
-        if current_height == previous_height:
+
+
+def parse67():
+    for offset in range(0, 10000, 16):
+        data = {
+            "action": "get_artists_unfilt",
+            "data": f'{{"offset":{offset}}}'
+        }
+
+        response = requests.post(url, headers=headers, data=data)
+        html = response.json().get('html')
+        if not html:
             break
-        previous_height = current_height
-
-    try:
-        articles = driver.find_elements(By.XPATH, '//li[@class="artist-tile tile-shape-square"]')
-        for art in articles:
-            text = art.text.strip()
-            current_names.add(text)
-    except Exception as e:
-        print(f"❌ Ошибка при парсинге элементов: {e}")
-
-    # Синхронизация и возврат результата
-    result = sync_artists_to_db(current_names)
-    return result
+        soup = BS(response.json().get('html'), 'html.parser')
+        artists = soup.find_all(name='li', class_='tile-shape-square')
+        for artist in artists:
+            current_names.add(artist.text.strip())
+    sync_artists_to_db(current_names=current_names)
