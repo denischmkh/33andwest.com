@@ -44,6 +44,7 @@ from _55_wecarealotpr_com import parse55
 from _60_ebmediapr_com import parse60
 from _61_7smgmt_com import parse61
 from _63_qprime_com import parse63
+from _64_thedigitaldept_com import parse64
 from _66_imran_malik_com import parse66
 from _67_earth_agency_com import parse67
 from _68_ayita_com import parse68
@@ -110,6 +111,7 @@ scripts = [
     parse60,
     parse61,
     parse63,
+    parse64,
     parse66,
     parse67,
     parse68,
