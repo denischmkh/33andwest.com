@@ -32,20 +32,21 @@ def parse8():
         current_names.add(text)
 
 
-    existing_artists = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).order_by('id')
+    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
     for name in current_names:
-        artist, created = Artist.objects.get_or_create(
+        artist, created = Artist.objects.update_or_create(
             artist_name=name,
-            website_link = website_link,
-
+            website_link=website_link,
             defaults={
-                # 'website_link': 'https://www.33andwest.com/music',
-                'agency_name': 'highroadtouring',
-                'date_added': today
+                "agency_name": "highroadtouring",
+                "date_removed": None,  # оживляем артиста, если был помечен как удалённый
             }
         )
+        if created:
+            artist.date_added = today
+            artist.save(update_fields=["date_added"])
 
     missing_names = existing_names - current_names
     Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
