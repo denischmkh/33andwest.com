@@ -73,7 +73,9 @@ def parse7(driver: uc.Chrome):
 
 
     missing_names = existing_names - current_names
-    Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(artist_name__in=current_names).update(date_removed=today)
+    count = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(
+        artist_name__in=current_names).update(date_removed=today)
+    print(count)
 
-    print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {len(missing_names)}")
-    return (len(current_names), len(current_names - existing_names), len(missing_names))
+    print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
+    return (len(current_names), len(current_names - existing_names), count)

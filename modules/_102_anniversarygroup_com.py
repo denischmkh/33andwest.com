@@ -79,10 +79,12 @@ def parse102():
                 artist.save(update_fields=["date_added"])
 
         missing_names = existing_names - current_names
-        Artist.objects.filter(artist_name__in=missing_names, date_removed__isnull=True).update(date_removed=today)
+        count = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(
+            artist_name__in=current_names).update(date_removed=today)
+        print(count)
 
-        print(f"🟢 Synchronization complete. New: {len(current_names - existing_names)}, Missing: {len(missing_names)}")
-        return (len(current_names), len(current_names - existing_names), len(missing_names))
+        print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
+        return (len(current_names), len(current_names - existing_names), count)
 
     else:
         raise Exception(f'Response error: {response.status_code} - {response.reason}')
