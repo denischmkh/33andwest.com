@@ -65,7 +65,7 @@ def parse92():
                 artist_name=name,
                 website_link=website_link,
                 defaults={
-                    "agency_name": 'motherartists',
+                    "agency_name": 'motherartists_live',
                     "date_removed": None,  # оживляем артиста, если был помечен как удалённый
                 }
             )
