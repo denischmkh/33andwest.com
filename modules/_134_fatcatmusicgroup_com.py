@@ -43,8 +43,7 @@ cookies = {
 }
 
 url = f"https://www.fatcatmusicgroup.com/bookings"
-website_link = 'https://www.fatcatmusicgroup.com'
-agency_name = 'fatcatmusicgroup.com'
+website_link = 'https://www.fatcatmusicgroup.com/bookings'
 
 # options = Options()
 # # options.add_argument("--headless")

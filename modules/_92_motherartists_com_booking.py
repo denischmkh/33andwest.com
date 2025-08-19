@@ -39,7 +39,7 @@ cookies = {
 }
 
 url = f"https://www.motherartists.com/live/"
-website_link = 'https://www.motherartists.com'
+website_link = 'https://www.motherartists.com/live'
 agency_name = 'motherartists.com'
 
 current_names = set()
