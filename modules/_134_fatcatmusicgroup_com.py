@@ -1,5 +1,6 @@
 import tempfile
 
+import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -76,7 +77,7 @@ def parse134(driver):
             artist_name=name,
             website_link=website_link,
             defaults={
-                "agency_name": 'fatcatmusicgroup',
+                "agency_name": 'fatcatmusicgroup_bookings',
                 "date_removed": None,  # оживляем артиста, если был помечен как удалённый
             }
         )
@@ -92,3 +93,6 @@ def parse134(driver):
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
     return (len(current_names), len(current_names - existing_names), count)
 
+if __name__ == '__main__':
+    driver = undetected_chromedriver.Chrome()
+    parse134(driver)
