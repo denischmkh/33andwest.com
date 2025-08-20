@@ -65,8 +65,8 @@ from _128_arcade_talent_com import parse128
 from _130_thebullittagency_com import parse130
 from _131_mushroombooking_com import parse131
 from _133_amodeagency_com import parse133
-from _134_fatcatmusicgroup_com import parse134
-from _135_fatcatmusicgroup_com import parse135
+from _134_fatcatmusicgroup_bookings_com import parse134
+from _135_fatcatmusicgroup_management_com import parse135
 from _136_t_s_agency_com import parse136
 from _137_kmgmt_com import parse137
 from _138_strangetalent_agency import parse138
