@@ -1,3 +1,4 @@
+import undetected_chromedriver
 from django.utils import timezone
 from selenium import webdriver
 import undetected_chromedriver as uc
@@ -62,3 +63,7 @@ def parse130(driver):
 
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
     return (len(current_names), len(current_names - existing_names), count)
+
+if __name__ == '__main__':
+    driver = undetected_chromedriver.Chrome()
+    parse130(driver=driver)

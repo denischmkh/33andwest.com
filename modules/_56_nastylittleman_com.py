@@ -63,12 +63,9 @@ def parse56(driver):
     html = driver.page_source
     soup = BeautifulSoup(html, "html.parser")
 
-    artists = soup.find("p",id="top")
-    full_text = artists.get_text()
-    raw_names = full_text.splitlines()
-    for name in raw_names:
-        clean_name = name.strip()
-        #print(f"Name: {clean_name}")
+    artists = soup.find("ul",id="menu-artist-roster").find_all('li')
+    for artist in artists:
+        clean_name = artist.text.strip()
         current_names.add(clean_name)
 
 
