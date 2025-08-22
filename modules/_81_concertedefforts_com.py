@@ -49,7 +49,7 @@ def parse81():
     if response.status_code == 200:
 
         soup = BeautifulSoup(response.text, "html.parser")
-        artists = soup.find("ul",class_="sub-menu").find_all("li")
+        artists = soup.find_all(name="a", attrs={'rel': 'bookmark'})
 
         for art in artists:
             text = art.text.strip()
