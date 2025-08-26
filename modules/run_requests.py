@@ -10,6 +10,7 @@ from parser_app.models import Status
 
 from _1_33andwest_com import parse1
 from _2_atc_live_com import parse2
+from _5_caa_com import parse5
 from _6_chameleon_unitedtalent_com import parse6
 from _8_highroadtouring_com import parse8
 from _9_itb_co_uk import parse9
@@ -80,7 +81,7 @@ from _140_panacherock_com import parse140
 from _142_thekurlandagency_com import parse142
 
 scripts = [
-    parse1, parse2, parse6, parse8,
+    parse1, parse2, parse5, parse6, parse8,
     parse9, parse10,
     parse11, parse13,
     parse14,

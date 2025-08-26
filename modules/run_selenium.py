@@ -10,7 +10,6 @@ import undetected_chromedriver as uc
 from selenium.webdriver.support.ui import WebDriverWait
 from _3_august_agency import parse3
 from _4_billions_com import parse4
-from _5_caa_com import parse5
 from _7_groundcontroltouring_com import parse7
 from _12_primarytalent_com import parse12
 from _16_teamwass_com import parse16
@@ -76,7 +75,7 @@ from config import VERSION_MAIN
 from parser_app.models import Status
 
 scripts = [
-    parse3, parse4, parse5, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
+    parse3, parse4, parse7, parse12, parse16, parse17, parse19, parse23, parse24, parse25, parse28, parse32,
     parse34, parse36, parse39, parse43, parse51, parse53, parse56, parse62, parse65,
     parse69, parse70, parse71, parse76, parse78, parse79, parse83, parse84, parse85, parse86, parse87, parse89,
     parse94, parse104, parse105, parse109, parse110, parse111, parse112, parse113, parse114, parse115,

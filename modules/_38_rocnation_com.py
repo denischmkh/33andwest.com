@@ -48,6 +48,7 @@ def parse38():
         }
 
         response = requests.post(url, headers=headers, data=payload)
+        print(response.text)
         # print("Response Headers:\n", response.headers)
         # print("Response Body:\n", response.text)
 
@@ -82,3 +83,6 @@ def parse38():
 
     print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
     return (len(current_names), len(current_names - existing_names), count)
+
+if __name__ == '__main__':
+    print(parse38())
