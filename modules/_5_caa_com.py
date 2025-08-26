@@ -40,6 +40,7 @@ def parse5():
         response = requests.get(url=url, cookies=cookies, headers=headers)
         soup = BS(response.json().get('artist_grid'), 'html.parser')
         artists = [el.text.strip() for el in soup.find_all(name='span', class_='artist-name')]
+        print(artists)
         if not artists: break
         for artist in artists:
             current_names.add(artist)
