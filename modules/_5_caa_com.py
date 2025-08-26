@@ -46,6 +46,8 @@ def parse5():
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))
 
+    print(len(current_names))
+
 
     for name in current_names:
         artist, created = Artist.objects.update_or_create(
