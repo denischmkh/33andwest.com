@@ -163,21 +163,21 @@ for script in scripts:
         artists_found, new, deleted = script()
         Status.objects.update_or_create(
             site=site_name,
+            date=datetime.date.today(),
             defaults={
                 'status': 'OK',
                 "scraped": artists_found,
                 "new": new,
                 'deleted': deleted,
-                'date': datetime.date.today()
             }
         )
         print(f"Function {script.__name__} has been ended")
     except Exception as e:
         Status.objects.update_or_create(
             site=site_name,
+            date=datetime.date.today(),
             defaults={
                 'status': 'Error',
-                'date': datetime.date.today()
             }
         )
         print(f"Function {script.__name__} had errors: {e}")

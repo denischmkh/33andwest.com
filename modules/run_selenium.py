@@ -87,6 +87,7 @@ scripts = [
 MAX_RETRIES = 5
 RETRY_DELAY = 15  # секунд
 
+
 def kill_xvfb():
     try:
         result = subprocess.run(
@@ -161,12 +162,14 @@ if not driver:
     exit(1)
 wait = WebDriverWait(driver, 20)
 
+
 # Скрипты
 
 def extract_domain(module_name: str) -> str:
     name = re.sub(r"^_\d+_", "", module_name)
     domain = name.replace("_", ".")
     return domain
+
 
 for script in scripts:
     print(f"Function {script.__name__} {script.__module__} has started")
@@ -175,25 +178,24 @@ for script in scripts:
         artists_found, new, deleted = script(driver=driver)
         Status.objects.update_or_create(
             site=site_name,
+            date=datetime.date.today(),
             defaults={
                 'status': 'OK',
                 "scraped": artists_found,
                 "new": new,
                 'deleted': deleted,
-                'date': datetime.date.today()
             }
         )
         print(f"Function {script.__name__} has been ended")
     except Exception as e:
         Status.objects.update_or_create(
             site=site_name,
+            date=datetime.date.today(),
             defaults={
                 'status': 'Error',
-                'date': datetime.date.today()
             }
         )
         print(f"Function {script.__name__} had errors: {e}")
-
 
 # Завершение работы
 driver.quit()
