@@ -51,7 +51,7 @@ def parse70(driver):
         previous_height = 0
         while True:
             driver.execute_script("window.scrollBy(0, 700);")
-            time.sleep(4)
+            time.sleep(10)
 
             current_height = driver.execute_script("return document.body.scrollHeight;")
             if current_height == previous_height:
