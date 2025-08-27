@@ -68,5 +68,6 @@ admin.site.register(Artist, ArtistAdmin)
 class StatusAdmin(admin.ModelAdmin):
     list_display = ['site', 'date', "scraped", "new", 'deleted', 'status']
     ordering = ['site']
+    list_filter = ['date', 'site']
 
 admin.site.register(Status, StatusAdmin)
