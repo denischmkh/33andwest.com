@@ -83,6 +83,6 @@ class UniqueDateListFilter(admin.SimpleListFilter):
 class StatusAdmin(admin.ModelAdmin):
     list_display = ['site', 'date', "scraped", "new", 'deleted', 'status']
     ordering = ['site']
-    list_filter = ['site', UniqueDateListFilter]
+    list_filter = [UniqueDateListFilter, 'site']
 
 admin.site.register(Status, StatusAdmin)
