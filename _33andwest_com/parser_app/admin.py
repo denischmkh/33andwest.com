@@ -70,13 +70,17 @@ class UniqueDateListFilter(admin.SimpleListFilter):
     parameter_name = 'date'
 
     def lookups(self, request, model_admin):
-        # Берем уникальные даты и сортируем по убыванию
+        # Уникальные даты, новые сверху
         dates = model_admin.model.objects.values_list('date', flat=True).distinct().order_by('-date')
-        return [(d, d.strftime("%Y-%m-%d")) for d in dates]
+        return [(d.strftime("%Y-%m-%d"), d.strftime("%Y-%m-%d")) for d in dates]
 
     def queryset(self, request, queryset):
         if self.value():
-            return queryset.filter(date=self.value())
+            try:
+                selected_date = datetime.strptime(self.value(), "%Y-%m-%d").date()
+                return queryset.filter(date=selected_date)
+            except ValueError:
+                return queryset.none()
         return queryset
 
 
