@@ -65,9 +65,24 @@ class ArtistAdmin(admin.ModelAdmin):
 
 admin.site.register(Artist, ArtistAdmin)
 
+class UniqueDateListFilter(admin.SimpleListFilter):
+    title = 'date'
+    parameter_name = 'date'
+
+    def lookups(self, request, model_admin):
+        # Берем уникальные даты из модели
+        dates = model_admin.model.objects.values_list('date', flat=True).distinct()
+        return [(d, d.strftime("%Y-%m-%d")) for d in dates]
+
+    def queryset(self, request, queryset):
+        if self.value():
+            return queryset.filter(date=self.value())
+        return queryset
+
+
 class StatusAdmin(admin.ModelAdmin):
     list_display = ['site', 'date', "scraped", "new", 'deleted', 'status']
     ordering = ['site']
-    list_filter = ['date', 'site']
+    list_filter = ['site', UniqueDateListFilter]
 
 admin.site.register(Status, StatusAdmin)
