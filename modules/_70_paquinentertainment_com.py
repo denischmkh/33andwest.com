@@ -45,7 +45,7 @@ current_names = set()
 def parse70(driver):
     try:
         driver.get(url)
-        time.sleep(3)
+        time.sleep(10)
 
         # Скроллинг до конца страницы
         previous_height = 0

@@ -25,7 +25,7 @@ current_names = set()
 # driver = webdriver.Chrome(options=chrome_options)
 def parse128(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     html = driver.page_source
 

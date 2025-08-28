@@ -56,7 +56,7 @@ website_link = 'https://www.fatcatmusicgroup.com/management'
 
 def parse135(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

@@ -39,7 +39,7 @@ def parse12(driver):
     wait = WebDriverWait(driver, 20)
 
     driver.get(url_1)
-    time.sleep(5)
+    time.sleep(10)
 
     # driver.execute_script()
     current_names = set()

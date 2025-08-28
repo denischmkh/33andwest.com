@@ -34,7 +34,7 @@ def parse17(driver):
     wait = WebDriverWait(driver, 20)
 
     driver.get(url_1)
-    time.sleep(5)
+    time.sleep(10)
     current_names = set()
 
     def find_elemets_on_page(locator):

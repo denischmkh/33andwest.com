@@ -61,7 +61,7 @@ agency_name = 'unitedagents.co.uk'
 # driver = webdriver.Chrome(options=options)
 def parse114(driver):
     driver.get(url)
-    time.sleep(3)
+    time.sleep(10)
     try:
         cookie_accept_button = WebDriverWait(driver, 15).until(
                     EC.element_to_be_clickable((By.ID, "cookiescript_accept"))

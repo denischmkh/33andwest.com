@@ -25,7 +25,7 @@ agency_name = 'beacons'
 current_names = set()
 def parse23(driver: uc.Chrome):
     driver.get(url)
-    time.sleep(5)
+    time.sleep(10)
     html = driver.page_source
 
     soup = BeautifulSoup(html, 'html.parser')

@@ -24,7 +24,7 @@ def parse65(driver):
 
     # driver = webdriver.Chrome(options=chrome_options)
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     html = driver.page_source
 

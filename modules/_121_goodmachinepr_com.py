@@ -55,7 +55,7 @@ agency_name = 'goodmachinepr.com'
 # driver = webdriver.Chrome(options=options)
 def parse121(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

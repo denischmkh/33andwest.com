@@ -56,7 +56,7 @@ agency_name = 'gersh.com'
 
 def parse51(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

@@ -55,7 +55,7 @@ agency_name = 'radiusartists.com'
 # driver = webdriver.Chrome(options=options)
 def parse87(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

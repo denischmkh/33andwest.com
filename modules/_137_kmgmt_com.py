@@ -55,7 +55,7 @@ agency_name = 'kmgmt.com'
 # driver = webdriver.Chrome(options=options)
 def parse137(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

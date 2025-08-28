@@ -58,7 +58,7 @@ agency_name = 'arrivalartists.com'
 
 def parse76(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

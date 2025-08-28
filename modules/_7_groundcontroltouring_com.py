@@ -35,7 +35,7 @@ def parse7(driver: uc.Chrome):
     wait = WebDriverWait(driver, 20)
 
     driver.get(url)
-    time.sleep(5)
+    time.sleep(10)
 
     current_names = set()
 

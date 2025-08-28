@@ -56,7 +56,7 @@ agency_name = 'sequelmusicgroup.com'
 
 def parse126(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

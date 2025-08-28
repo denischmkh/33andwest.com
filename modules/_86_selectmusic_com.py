@@ -55,7 +55,7 @@ agency_name = 'selectmusic.com'
 # driver = webdriver.Chrome(options=options)
 def parse86(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

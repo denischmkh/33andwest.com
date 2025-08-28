@@ -55,7 +55,7 @@ website_link = 'https://www.fatcatmusicgroup.com/bookings'
 # driver = webdriver.Chrome(options=options)
 def parse134(driver):
     driver.get(url)
-    time.sleep(2)
+    time.sleep(10)
 
     current_names = set()
 

@@ -18,7 +18,7 @@ def parse78(driver):
 
     try:
         driver.get(website_link)
-        time.sleep(5)  # Можно заменить на WebDriverWait при необходимости
+        time.sleep(10)  # Можно заменить на WebDriverWait при необходимости
 
         html = driver.page_source
         soup = BeautifulSoup(html, "html.parser")
