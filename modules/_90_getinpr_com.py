@@ -49,17 +49,9 @@ def parse90():
     if response.status_code == 200:
 
         soup = BeautifulSoup(response.text, "html.parser")
-        client_types = soup.find_all("p", class_="item__client-type")
-
-        for client_type in client_types:
-            if client_type.text.strip() == "ARTIST":
-                parent_div = client_type.find_parent("div")
-                if parent_div:
-                    p_tags = parent_div.find_all("p")
-                    if len(p_tags) >= 2:
-                        artist_name = p_tags[1].text.strip()
-                        if len(artist_name) > 1:
-                            current_names.add(artist_name)
+        current_clients = [el.find(name='p', class_='item__title').text.strip() for el in soup.find_all(name='div', class_='currentClient')]
+        for name in current_clients:
+            current_names.add(name)
 
         existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
         existing_names = set(existing_artists.values_list('artist_name', flat=True))
