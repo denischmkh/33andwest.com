@@ -42,21 +42,20 @@ website_link = 'https://www.chromaticpr.com'
 agency_name = 'chromaticpr.com'
 def parse77():
     current_names = set()
-    for page in range(1,3):
-        url = f"https://www.chromaticpr.com/page/{page}/"
-        response = requests.get(url, headers=headers, cookies=cookies)
+    url = f"https://chromaticpr.com/current-artists/"
+    response = requests.get(url, headers=headers, cookies=cookies)
 
-        if response.status_code == 200:
+    if response.status_code == 200:
 
-            soup = BeautifulSoup(response.text, "html.parser")
-            artists = soup.find("div",id="x-iso-container").find_all("article")
+        soup = BeautifulSoup(response.text, "html.parser")
+        artists = soup.find_all("h2",class_="df-cpt-title")
 
-            for art in artists:
-                text = art.text.strip()
-                #print(f"Name: {text}")
-                current_names.add(text)
-        else:
-            raise Exception(f'Response error: {response.status_code} - {response.reason}')
+        for art in artists:
+            text = art.text.strip()
+            #print(f"Name: {text}")
+            current_names.add(text)
+    else:
+        raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
     existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
     existing_names = set(existing_artists.values_list('artist_name', flat=True))

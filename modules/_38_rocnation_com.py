@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from django.utils import timezone
 
 from load_django import *
-from parser_app.models import Artist
+# from parser_app.models import Artist
 
 today = timezone.now().date()
 
@@ -59,30 +59,31 @@ def parse38():
         for a in artists:
             text = a.get_text(strip=True)
             current_names.add(text)
+    print(current_names)
 
-    existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
-    existing_names = set(existing_artists.values_list('artist_name', flat=True))
-
-    for name in current_names:
-        artist, created = Artist.objects.update_or_create(
-            artist_name=name,
-            website_link=website_link,
-            defaults={
-                "agency_name": agency_name,
-                "date_removed": None,  # оживляем артиста, если был помечен как удалённый
-            }
-        )
-        if created:
-            artist.date_added = today
-            artist.save(update_fields=["date_added"])
-
-    missing_names = existing_names - current_names
-    count = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(
-        artist_name__in=current_names).update(date_removed=today)
-    print(count)
-
-    print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
-    return (len(current_names), len(current_names - existing_names), count)
+    # existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+    # existing_names = set(existing_artists.values_list('artist_name', flat=True))
+    #
+    # for name in current_names:
+    #     artist, created = Artist.objects.update_or_create(
+    #         artist_name=name,
+    #         website_link=website_link,
+    #         defaults={
+    #             "agency_name": agency_name,
+    #             "date_removed": None,  # оживляем артиста, если был помечен как удалённый
+    #         }
+    #     )
+    #     if created:
+    #         artist.date_added = today
+    #         artist.save(update_fields=["date_added"])
+    #
+    # missing_names = existing_names - current_names
+    # count = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(
+    #     artist_name__in=current_names).update(date_removed=today)
+    # print(count)
+    #
+    # print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
+    # return (len(current_names), len(current_names - existing_names), count)
 
 if __name__ == '__main__':
-    print(parse38())
+    parse38()
