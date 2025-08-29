@@ -12,7 +12,7 @@ def parse18():
 
     current_names = set()
 
-    for page in range(1, 100):
+    for page in range(0, 100):
 
         url = f"https://music.wmeagency.com/Music/talents/infinite-scroll-grid/{page}?title=&field_profile_status_value=2&arg1=all"
 
