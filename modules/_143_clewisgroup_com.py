@@ -1,51 +1,83 @@
+from pprint import pprint
+
 import requests
 import pdfplumber
+from django.utils import timezone
 
-url = "https://img1.wsimg.com/blobby/go/fdfd814d-d08c-47e3-b4cd-77afd89ca8f9/CLG%20ROSTER%202025.pdf"
-response = requests.get(url)
+from load_django import *
+from parser_app.models import Artist
 
-with open("file.pdf", "wb") as f:
-    f.write(response.content)
+website_link = 'https://clewisgroup.com/roster'
+agency_name = 'clewisgroup'
 
-with pdfplumber.open("file.pdf") as pdf:
-    first_page = pdf.pages[0]
+today = timezone.now().date()
 
-    words = first_page.extract_words()  # получаем слова с координатами
-    left_column = []
-    right_column = []
+def parse143():
+    try:
+        url = "https://img1.wsimg.com/blobby/go/fdfd814d-d08c-47e3-b4cd-77afd89ca8f9/CLG%20ROSTER%202025.pdf"
+        response = requests.get(url)
+        with open("file.pdf", "wb") as f:
+            f.write(response.content)
 
-    for w in words:
-        # x0 меньше 300 — левая колонка, больше или равно — правая
-        if w['x0'] < 300:
-            left_column.append((w['top'], w['text']))
-        else:
-            right_column.append((w['top'], w['text']))
+        # Открываем PDF
+        with pdfplumber.open("file.pdf") as pdf:
+            page = pdf.pages[0]
+            chars = page.chars
 
-    # сортируем по вертикали (top) и группируем строки
-    def group_by_line(column):
-        column.sort(key=lambda x: x[0])
-        lines = []
-        current_top = None
-        current_line = []
-        for top, text in column:
-            if current_top is None or abs(top - current_top) < 5:  # считаем как одна строка
-                current_line.append(text)
-                current_top = top if current_top is None else current_top
+        # Сортируем символы по вертикали и горизонтали
+        chars_sorted = sorted(chars, key=lambda x: (x['top'], x['x0']))
+
+        left_column = []
+        right_column = []
+
+        current_line_left = []
+        current_line_right = []
+
+        for i, char in enumerate(chars_sorted):
+            if char['x0'] < 300:
+                current_line_left.append(char['text'])
             else:
-                lines.append(" ".join(current_line))
-                current_line = [text]
-                current_top = top
-        if current_line:
-            lines.append(" ".join(current_line))
-        return lines
+                current_line_right.append(char['text'])
 
-    left_lines = group_by_line(left_column)
-    right_lines = group_by_line(right_column)
+            # Проверяем, есть ли следующий символ
+            if i + 1 < len(chars_sorted):
+                next_char = chars_sorted[i + 1]
+                if abs(next_char['top'] - char['top']) > 2:  # новая строка
+                    left_column.append(''.join(current_line_left).strip())
+                    right_column.append(''.join(current_line_right).strip())
+                    current_line_left = []
+                    current_line_right = []
+            else:
+                # Последний символ — сохраняем текущую строку
+                left_column.append(''.join(current_line_left).strip())
+                right_column.append(''.join(current_line_right).strip())
 
-    print("Левая колонка:")
-    for line in left_lines:
-        print(line)
+        left_column = [name for name in left_column if '@' not in name and not any(c.isdigit() for c in name)][2:]
+        right_column = [name for name in right_column if '@' not in name and not any(c.isdigit() for c in name)][2:-1]
 
-    print("\nПравая колонка:")
-    for line in right_lines:
-        print(line)
+        current_names = set(left_column + right_column)
+        existing_artists = Artist.objects.filter(website_link=website_link).order_by('id')
+        existing_names = set(existing_artists.values_list('artist_name', flat=True))
+
+        for name in current_names:
+            artist, created = Artist.objects.update_or_create(
+                artist_name=name,
+                website_link=website_link,
+                defaults={
+                    "agency_name": 'clewisgroup',
+                    "date_removed": None,
+                }
+            )
+            if created:
+                artist.date_added = today
+                artist.save(update_fields=["date_added"])
+
+        count = Artist.objects.filter(website_link=website_link, date_removed__isnull=True).exclude(
+            artist_name__in=current_names).update(date_removed=today)
+        print(count)
+
+        print(f"🟢 Синхронізація завершена. Нові: {len(current_names - existing_names)}, Зниклі: {count}")
+        return (len(current_names), len(current_names - existing_names), count)
+    except Exception :
+        raise Exception(f'Response error: {response.status_code} - {response.reason}')
+

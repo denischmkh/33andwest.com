@@ -79,6 +79,7 @@ from _120_anna_agency_nl import parse120
 from _123_2bentertainment_net import parse123
 from _140_panacherock_com import parse140
 from _142_thekurlandagency_com import parse142
+from _143_clewisgroup_com import parse143
 
 scripts = [
     parse1, parse2, parse5, parse6, parse8,
@@ -145,7 +146,8 @@ scripts = [
     parse120,
     parse123,
     parse140,
-    parse142
+    parse142,
+    parse143
 ]
 
 
