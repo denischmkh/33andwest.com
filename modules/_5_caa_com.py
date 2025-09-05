@@ -38,6 +38,7 @@ def parse5():
     for page in range(0, 100):
         url = f'https://www.caa.com/touring/artists_page/all/{page}/a'
         response = requests.get(url=url, cookies=cookies, headers=headers)
+        print(response.status_code)
         soup = BS(response.json().get('artist_grid'), 'html.parser')
         artists = [el.text.strip() for el in soup.find_all(name='span', class_='artist-name')]
         if not artists: break

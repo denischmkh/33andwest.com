@@ -48,7 +48,7 @@ def parse38():
         }
 
         response = requests.post(url, headers=headers, data=payload)
-        print(response.text)
+        # print(response.text)
         # print("Response Headers:\n", response.headers)
         # print("Response Body:\n", response.text)
 
