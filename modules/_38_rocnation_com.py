@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from django.utils import timezone
 
 from load_django import *
-# from parser_app.models import Artist
+from parser_app.models import Artist
 
 today = timezone.now().date()
 
