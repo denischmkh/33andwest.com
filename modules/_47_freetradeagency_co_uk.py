@@ -26,10 +26,12 @@ def parse47():
     soup = BeautifulSoup(response.text, 'html.parser')
     # print(soup.prettify())
     # //span[@class="sqsrte-text-color--accent"]
-    artists = soup.find_all('span',class_="sqsrte-text-color--accent")
+    artists = soup.select("p[style]")
 
     for span in artists:
         text = span.get_text(strip=True)
+        if not text:
+            continue
         current_names.add(text)
 
 
