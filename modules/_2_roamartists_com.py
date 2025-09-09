@@ -1,3 +1,5 @@
+import time
+
 import cloudscraper
 from bs4 import BeautifulSoup
 from django.utils import timezone
@@ -13,23 +15,24 @@ headers = {
     'Accept-Language': 'en-En,en;q=0.9,en-US;q=0.8,en;q=0.7'
 }
 
-url = 'https://atc-live.com/artists/'
-website_link = 'https://atc-live.com'
+url = 'https://roamartists.com/'
+website_link = 'https://roamartists.com/'
 
 current_names = set()
 
-def parse2():
-    response = cloudscraper.create_scraper().get(url, headers=headers)
+def parse2(driver):
 
-    if not response.ok:
-        raise Exception(f'Response error: {response.status_code} - {response.reason}')
 
-    soup = BeautifulSoup(response.text, 'html.parser')
-    lost = []
-    artists = soup.find('div', id="artists-page").find_all('a')
+    driver.get(url)
+    time.sleep(10)
+
+    html = driver.page_source
+
+    soup = BeautifulSoup(html, 'html.parser')
+    artists = soup.select('div.roster-list a.publish')
 
     for a in artists:
-        text = a.get_text(strip=True)
+        text = a.find(text=True, recursive=False).strip()
         current_names.add(text)
 
 
@@ -43,7 +46,7 @@ def parse2():
             artist_name=name,
             website_link=website_link,
             defaults={
-                "agency_name": "atc-live",
+                "agency_name": "roamartists",
                 "date_removed": None,  # оживляем артиста, если был помечен как удалённый
             }
         )

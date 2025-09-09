@@ -9,7 +9,6 @@ from load_django import *
 from parser_app.models import Status
 
 from _1_33andwest_com import parse1
-from _2_atc_live_com import parse2
 from _5_caa_com import parse5
 from _6_chameleon_unitedtalent_com import parse6
 from _8_highroadtouring_com import parse8
