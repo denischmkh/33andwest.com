@@ -81,7 +81,7 @@ from _142_thekurlandagency_com import parse142
 from _143_clewisgroup_com import parse143
 
 scripts = [
-    parse1, parse2, parse5, parse6, parse8,
+    parse1, parse5, parse6, parse8,
     parse9, parse10,
     parse11, parse13,
     parse14,
