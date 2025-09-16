@@ -69,7 +69,6 @@ from _137_kmgmt_com import parse137
 from _138_strangetalent_agency import parse138
 from _139_atcmanagement_com import parse139
 from _141_leadermgmt_com import parse141
-from config import VERSION_MAIN
 from parser_app.models import Status
 
 scripts = [

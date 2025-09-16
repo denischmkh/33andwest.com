@@ -50,10 +50,9 @@ def parse99():
     if response.status_code == 200:
 
         soup = BeautifulSoup(response.text, "html.parser")
-        artists = soup.find_all("div",class_="Index-gallery-wrapper")
-        article = artists[0].find_all("article")
+        artists = soup.find_all("h2",class_="Index-gallery-item-content-heading")
 
-        for art in article:
+        for art in artists:
             text = art.text.strip()
             #print(f"Name: {text}")
             current_names.add(text)
